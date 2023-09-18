@@ -13,8 +13,7 @@ package com.tencent.bk.sdk.iam.constants;
 
 public class V2IamUri {
     public static final String V2_MANAGER_GRADE_GROUP_CREATE = "/api/v2/open/management/systems/%s/grade_managers/%s/groups/";
-    public static final String V2_MANAGER_ROLE_GROUP_UPDATE = "/api/v2/open/management/systems/%s/groups/%s/";
-    public static final String V2_MANAGER_ROLE_GROUP_DELETE = "/api/v2/open/management/systems/%s/groups/%s/";
+    public static final String V2_MANAGER_ROLE_GROUP = "/api/v2/open/management/systems/%s/groups/%s/";
     public static final String V2_MANAGER_ROLE_GROUP_GRANT = "/api/v2/open/management/systems/%s/groups/%s/policies/";
 
     public static final String V2_MANAGER_ROLE_GROUP_ACTION_DEL = "/api/v2/open/management/systems/%s/groups/%s/actions/-/policies/";
@@ -22,8 +21,7 @@ public class V2IamUri {
     public static final String V2_MANAGER_ROLE_GROUP_PERMISSION_DETAIL_GET = "/api/v2/open/management/systems/%s/groups/%s/policies/";
     public static final String V2_MANAGER_ROLE_GROUP_APPLICATIONS_CREATE = "/api/v2/open/management/systems/%s/groups/-/applications/";
     public static final String V2_MANAGER_ROLE_GROUP_BELONG = "/api/v2/open/management/systems/%s/users/%s/groups/belong/?groups=%s&inherit=%s";
-    public static final String V2_MANAGER_ROLE_GROUP_MEMBER_CREATE = "/api/v2/open/management/systems/%s/groups/%s/members/";
-    public static final String V2_MANAGER_ROLE_GROUP_MEMBER_GET = "/api/v2/open/management/systems/%s/groups/%s/members/";
+    public static final String V2_MANAGER_ROLE_GROUP_MEMBER = "/api/v2/open/management/systems/%s/groups/%s/members/";
     public static final String V2_MANAGER_ROLE_GROUP_MEMBER_DEL = "/api/v2/open/management/systems/%s/groups/%s/members/?type=%s&ids=%s";
     public static final String V2_MANAGER_ROLE_GROUP_MEMBER_RENEWAL = "/api/v2/open/management/systems/%s/groups/%s/members/-/expired_at/";
     public static final String V2_AUTH_POLICY = "/api/v2/policy/systems/%s/auth/";
@@ -41,21 +39,13 @@ public class V2IamUri {
 
     // 创建分级管理员
     public static final String V2_MANAGER_ROLE_CREATE = "/api/v2/open/management/systems/%s/grade_managers/";
-    // 更新分级管理员
-    public static final String V2_MANAGER_ROLE_UPDATE = "/api/v2/open/management/systems/%s/grade_managers/%s/";
-    // 获取分级管理员详情
-    public static final String V2_MANAGER_ROLE_DETAIL_GET = "/api/v2/open/management/systems/%s/grade_managers/%s";
-    // 删除分级管理员
-    public static final String V2_MANAGER_ROLE_DELETE = "/api/v2/open/management/systems/%s/grade_managers/%s";
+    // 分级管理员
+    public static final String V2_MANAGER_ROLE = "/api/v2/open/management/systems/%s/grade_managers/%s";
 
     // 创建二级管理员
     public static final String V2_SUBSET_GRADE_MANAGER_CREATE = "/api/v2/open/management/systems/%s/grade_managers/%s/subset_managers/";
-    // 获取二级管理员详情
-    public static final String V2_SUBSET_GRADE_MANAGER_DETAIL_GET = "/api/v2/open/management/systems/%s/subset_managers/%s";
-    // 更新二级管理员
-    public static final String V2_SUBSET_GRADE_MANAGER_UPDATE = "/api/v2/open/management/systems/%s/subset_managers/%s";
-    // 删除二级管理员
-    public static final String V2_SUBSET_GRADE_MANAGER_DELETE = "/api/v2/open/management/systems/%s/subset_managers/%s/";
+    // 二级管理员
+    public static final String V2_SUBSET_GRADE_MANAGER = "/api/v2/open/management/systems/%s/subset_managers/%s";
     // 用户组续期（需要审批版）
     public static final String V2_GROUPS_RENEW_APPLICATIONS = "/api/v2/open/management/systems/%s/groups/-/renew/applications/";
 

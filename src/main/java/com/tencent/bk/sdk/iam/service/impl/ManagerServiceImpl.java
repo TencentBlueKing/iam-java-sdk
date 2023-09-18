@@ -77,7 +77,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public ManagerRoleGroupVO getGradeManagerRoleGroup(Integer projectId, PageInfoDTO pageInfoDTO) {
         try {
-            String responseStr = apigwHttpClientService.doHttpGet(buildURLPage(String.format(IamUri.MANAGER_GRADE_GROUP_GET, projectId.toString()), pageInfoDTO));
+            String responseStr = apigwHttpClientService.doHttpGet(buildURLPage(String.format(IamUri.MANAGER_GRADE_GROUP, projectId.toString()), pageInfoDTO));
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("get manager role response|{}", responseStr);
                 ResponseDTO<ManagerRoleGroupVO> responseInfo = JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<ManagerRoleGroupVO>>() {
@@ -102,7 +102,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public Integer batchCreateRoleGroup(Integer projectId, ManagerRoleGroupDTO managerRoleGroupDTO) {
         try {
-            String url = String.format(IamUri.MANAGER_GRADE_GROUP_CREATE, projectId);
+            String url = String.format(IamUri.MANAGER_GRADE_GROUP, projectId);
             String responseStr = apigwHttpClientService.doHttpPost(url, managerRoleGroupDTO);
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("create manager role group response|{}", responseStr);
@@ -128,7 +128,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public void updateRoleGroup(Integer roleId, ManagerRoleGroup managerRoleGroup) {
         try {
-            String responseStr = apigwHttpClientService.doHttpPut(String.format(IamUri.MANAGER_ROLE_GROUP_UPDATE, roleId.toString()), managerRoleGroup);
+            String responseStr = apigwHttpClientService.doHttpPut(String.format(IamUri.MANAGER_ROLE_GROUP, roleId.toString()), managerRoleGroup);
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("update manager role group response|{}", responseStr);
                 ResponseDTO<Object> responseInfo = JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<Object>>() {
@@ -151,7 +151,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public void deleteRoleGroup(Integer roleId) {
         try {
-            String responseStr = apigwHttpClientService.doHttpDelete(String.format(IamUri.MANAGER_ROLE_GROUP_DELETE, roleId.toString()));
+            String responseStr = apigwHttpClientService.doHttpDelete(String.format(IamUri.MANAGER_ROLE_GROUP, roleId.toString()));
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("delete manager role group response|{}", responseStr);
                 ResponseDTO<Object> responseInfo = JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<Object>>() {
@@ -247,7 +247,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public ManagerGroupMemberVo getRoleGroupMember(Integer roleId, PageInfoDTO pageInfoDTO) {
-        String url = buildURLPage(String.format(IamUri.MANAGER_ROLE_GROUP_MEMBER_GET, roleId.toString()), pageInfoDTO);
+        String url = buildURLPage(String.format(IamUri.MANAGER_ROLE_GROUP_MEMBER, roleId.toString()), pageInfoDTO);
         try {
             String responseStr = apigwHttpClientService.doHttpGet(url);
             if (StringUtils.isNotBlank(responseStr)) {
@@ -273,7 +273,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public void createRoleGroupMember(Integer roleId, ManagerMemberGroupDTO managerMemberGroupDTO) {
-        String url = String.format(IamUri.MANAGER_ROLE_GROUP_MEMBER_CREATE, roleId);
+        String url = String.format(IamUri.MANAGER_ROLE_GROUP_MEMBER, roleId);
         try {
             String responseStr = apigwHttpClientService.doHttpPost(url, managerMemberGroupDTO);
             if (StringUtils.isNotBlank(responseStr)) {

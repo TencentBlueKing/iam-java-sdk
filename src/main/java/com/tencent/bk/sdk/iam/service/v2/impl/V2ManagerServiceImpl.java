@@ -94,7 +94,7 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     @Override
     public void updateRoleGroupV2(Integer groupId, ManagerRoleGroup managerRoleGroup) {
         try {
-            String responseStr = apigwHttpClientService.doHttpPut(String.format(V2IamUri.V2_MANAGER_ROLE_GROUP_UPDATE, iamConfiguration.getSystemId(), groupId), managerRoleGroup);
+            String responseStr = apigwHttpClientService.doHttpPut(String.format(V2IamUri.V2_MANAGER_ROLE_GROUP, iamConfiguration.getSystemId(), groupId), managerRoleGroup);
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("update V2 manager role group response|{}", responseStr);
                 ResponseDTO<Object> responseInfo = JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<Object>>() {
@@ -117,7 +117,7 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     @Override
     public void deleteRoleGroupV2(Integer groupId) {
         try {
-            String responseStr = apigwHttpClientService.doHttpDelete(String.format(V2IamUri.V2_MANAGER_ROLE_GROUP_DELETE, iamConfiguration.getSystemId(), groupId));
+            String responseStr = apigwHttpClientService.doHttpDelete(String.format(V2IamUri.V2_MANAGER_ROLE_GROUP, iamConfiguration.getSystemId(), groupId));
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("delete V2 manager role group response|{}", responseStr);
                 ResponseDTO<Object> responseInfo = JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<Object>>() {
@@ -163,7 +163,7 @@ public class V2ManagerServiceImpl implements V2ManagerService {
 
     @Override
     public void createRoleGroupMemberV2(Integer groupId, ManagerMemberGroupDTO managerMemberGroupDTO) {
-        String url = String.format(V2IamUri.V2_MANAGER_ROLE_GROUP_MEMBER_CREATE, iamConfiguration.getSystemId(), groupId);
+        String url = String.format(V2IamUri.V2_MANAGER_ROLE_GROUP_MEMBER, iamConfiguration.getSystemId(), groupId);
         try {
             String responseStr = apigwHttpClientService.doHttpPost(url, managerMemberGroupDTO);
             if (StringUtils.isNotBlank(responseStr)) {
@@ -212,7 +212,7 @@ public class V2ManagerServiceImpl implements V2ManagerService {
 
     @Override
     public ManagerGroupMemberVo getRoleGroupMemberV2(Integer groupId, V2PageInfoDTO pageInfoDTO) {
-        String url = v2BuildURLPage(String.format(V2IamUri.V2_MANAGER_ROLE_GROUP_MEMBER_GET, iamConfiguration.getSystemId(), groupId), pageInfoDTO);
+        String url = v2BuildURLPage(String.format(V2IamUri.V2_MANAGER_ROLE_GROUP_MEMBER, iamConfiguration.getSystemId(), groupId), pageInfoDTO);
         try {
             String responseStr = apigwHttpClientService.doHttpGet(url);
             if (StringUtils.isNotBlank(responseStr)) {
@@ -475,7 +475,7 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     public ManagerDetailResponse getGradeManagerDetail(String gradeManagerId) {
         try {
             String responseStr = apigwHttpClientService.doHttpGet(
-                String.format(V2IamUri.V2_MANAGER_ROLE_DETAIL_GET, iamConfiguration.getSystemId(), gradeManagerId));
+                String.format(V2IamUri.V2_MANAGER_ROLE, iamConfiguration.getSystemId(), gradeManagerId));
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("get subeset manager role group response|{}", responseStr);
                 ResponseDTO<ManagerDetailResponse> responseInfo =
@@ -612,7 +612,7 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     @Override
     public void updateManagerV2(String gradeManagerId, UpdateManagerDTO updateManagerDTO) {
         try {
-            String responseStr = apigwHttpClientService.doHttpPut(String.format(V2IamUri.V2_MANAGER_ROLE_UPDATE, iamConfiguration.getSystemId(), gradeManagerId), updateManagerDTO);
+            String responseStr = apigwHttpClientService.doHttpPut(String.format(V2IamUri.V2_MANAGER_ROLE, iamConfiguration.getSystemId(), gradeManagerId), updateManagerDTO);
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("update manager response|{}", responseStr);
                 ResponseDTO<Object> responseInfo = JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<Object>>() {
@@ -635,7 +635,7 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     @Override
     public void deleteManagerV2(String gradeManagerId) {
         try {
-            String responseStr = apigwHttpClientService.doHttpDelete(String.format(V2IamUri.V2_MANAGER_ROLE_DELETE, iamConfiguration.getSystemId(), gradeManagerId));
+            String responseStr = apigwHttpClientService.doHttpDelete(String.format(V2IamUri.V2_MANAGER_ROLE, iamConfiguration.getSystemId(), gradeManagerId));
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("delete V2 grade manager response|{}", responseStr);
                 ResponseDTO<Object> responseInfo = JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<Object>>() {
@@ -739,7 +739,7 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     public ManagerDetailResponse getSubsetManagerDetail(String subsetManagerId) {
         try {
             String responseStr = apigwHttpClientService.doHttpGet(
-                    String.format(V2IamUri.V2_SUBSET_GRADE_MANAGER_DETAIL_GET, iamConfiguration.getSystemId(), subsetManagerId));
+                    String.format(V2IamUri.V2_SUBSET_GRADE_MANAGER, iamConfiguration.getSystemId(), subsetManagerId));
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("get subeset manager detail response|{}", responseStr);
                 ResponseDTO<ManagerDetailResponse> responseInfo =
@@ -765,7 +765,7 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     @Override
     public void updateSubsetManager(String subsetManagerId, UpdateSubsetManagerDTO updateSubsetManagerDTO) {
         try {
-            String url = String.format(V2IamUri.V2_SUBSET_GRADE_MANAGER_UPDATE, iamConfiguration.getSystemId(), subsetManagerId);
+            String url = String.format(V2IamUri.V2_SUBSET_GRADE_MANAGER, iamConfiguration.getSystemId(), subsetManagerId);
             String responseStr = apigwHttpClientService.doHttpPost(url, updateSubsetManagerDTO);
             if (StringUtils.isNotBlank(responseStr)) {
                 System.out.println(responseStr);
@@ -790,7 +790,7 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     @Override
     public void deleteSubsetManager(String subsetManagerId) {
         try {
-            String responseStr = apigwHttpClientService.doHttpDelete(String.format(V2IamUri.V2_SUBSET_GRADE_MANAGER_DELETE, iamConfiguration.getSystemId(), subsetManagerId));
+            String responseStr = apigwHttpClientService.doHttpDelete(String.format(V2IamUri.V2_SUBSET_GRADE_MANAGER, iamConfiguration.getSystemId(), subsetManagerId));
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("delete V2 subset manager response|{}", responseStr);
                 System.out.println("delete V2 subset manager response|" + responseStr);

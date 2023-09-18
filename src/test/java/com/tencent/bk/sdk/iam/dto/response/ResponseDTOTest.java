@@ -37,7 +37,7 @@ class ResponseDTOTest {
     @Test
     public void stringTest() {
         Integer roleId = 10;
-        String url = String.format(IamUri.MANAGER_ROLE_GROUP_UPDATE, roleId.toString());
+        String url = String.format(IamUri.MANAGER_ROLE_GROUP, roleId.toString());
     }
 
     @SneakyThrows

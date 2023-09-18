@@ -65,15 +65,12 @@ public class IamUri {
 
     public static final String MANAGER_ROLE = "/api/v1/open/management/grade_managers/";
     public static final String MANAGER_ROLE_UPDATE = "/api/v1/open/management/grade_managers/%s/";
-    public static final String MANAGER_GRADE_GROUP_GET = "/api/v1/open/management/grade_managers/%s/groups/";
-    public static final String MANAGER_GRADE_GROUP_CREATE = "/api/v1/open/management/grade_managers/%s/groups/";
-    public static final String MANAGER_ROLE_GROUP_UPDATE = "/api/v1/open/management/groups/%s/";
-    public static final String MANAGER_ROLE_GROUP_DELETE = "/api/v1/open/management/groups/%s/";
+    public static final String MANAGER_GRADE_GROUP = "/api/v1/open/management/grade_managers/%s/groups/";
+    public static final String MANAGER_ROLE_GROUP = "/api/v1/open/management/groups/%s/";
     public static final String MANAGER_GRADE_MEMBER_GET = "/api/v1/open/management/grade_managers/%s/members/";
     public static final String MANAGER_GRADE_MEMBER_CREATE = "/api/v1/open/management/grade_managers/%s/members/";
     public static final String MANAGER_GRADE_MEMBER_DEL = "/api/v1/open/management/grade_managers/%s/members/?members=%s";
-    public static final String MANAGER_ROLE_GROUP_MEMBER_GET = "/api/v1/open/management/groups/%s/members/";
-    public static final String MANAGER_ROLE_GROUP_MEMBER_CREATE = "/api/v1/open/management/groups/%s/members/";
+    public static final String MANAGER_ROLE_GROUP_MEMBER = "/api/v1/open/management/groups/%s/members/";
     public static final String MANAGER_ROLE_GROUP_MEMBER_DEL = "/api/v1/open/management/groups/%s/members/?type=%s&ids=%s";
     public static final String MANAGER_USER_ROLE = "/api/v1/open/management/users/grade_managers/";
     public static final String MANAGER_ROLE_PERMISSION = "/api/v1/open/management/groups/%s/policies/";
