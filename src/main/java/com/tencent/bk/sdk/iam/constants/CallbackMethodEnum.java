@@ -35,6 +35,10 @@ public enum CallbackMethodEnum {
      */
     LIST_INSTANCE("list_instance"),
     /**
+     * 查询资源授权管理记录
+     */
+    LIST_RESOURCE_AUTHORIZATION("list_resource_authorization"),
+    /**
      * 批量获取资源实例详情
      */
     FETCH_INSTANCE_INFO("fetch_instance_info"),
