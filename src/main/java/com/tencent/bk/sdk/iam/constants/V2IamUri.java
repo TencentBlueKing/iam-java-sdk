@@ -24,6 +24,7 @@ public class V2IamUri {
     public static final String V2_MANAGER_ROLE_GROUP_BELONG = "/api/v2/open/management/systems/%s/users/%s/groups/belong/?groups=%s&inherit=%s";
     public static final String V2_MANAGER_ROLE_GROUP_MEMBER_CREATE = "/api/v2/open/management/systems/%s/groups/%s/members/";
     public static final String V2_MANAGER_ROLE_GROUP_MEMBER_GET = "/api/v2/open/management/systems/%s/groups/%s/members/";
+    public static final String V2_MANAGER_ROLE_GROUP_TEMPLATES_LIST = "/api/v2/open/management/systems/%s/groups/%s/subject_templates/";
     public static final String V2_MANAGER_ROLE_GROUP_MEMBER_DEL = "/api/v2/open/management/systems/%s/groups/%s/members/?type=%s&ids=%s";
     public static final String V2_MANAGER_ROLE_GROUP_MEMBER_RENEWAL = "/api/v2/open/management/systems/%s/groups/%s/members/-/expired_at/";
     public static final String V2_AUTH_POLICY = "/api/v2/policy/systems/%s/auth/";
@@ -39,6 +40,7 @@ public class V2IamUri {
     public static final String V2_SUBSET_GRADE_MANAGER_GROUP_GET = "/api/v2/open/management/systems/%s/subset_managers/%s/groups/";
     public static final String V2_MANAGER_GRADE_GROUP_GET = "/api/v2/open/management/systems/%s/grade_managers/%s/groups/";
     public static final String V2_MANAGER_GRADE_TEMPLATE_GET = "/api/v2/open/management/systems/%s/grade_managers/%s/subject_templates/";
+    public static final String V2_MEMBER_GROUP_DETAILS_GET = "/api/v2/open/management/systems/%s/grade_managers/%s/group_member_types/%s/members/%s/groups/-/details?group_ids=%s";
 
     // 创建分级管理员
     public static final String V2_MANAGER_ROLE_CREATE = "/api/v2/open/management/systems/%s/grade_managers/";
