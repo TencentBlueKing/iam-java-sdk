@@ -11,6 +11,7 @@
 
 package com.tencent.bk.sdk.iam.service.v2;
 
+import com.tencent.bk.sdk.iam.constants.ManagerScopesEnum;
 import com.tencent.bk.sdk.iam.dto.CallbackApplicationDTO;
 import com.tencent.bk.sdk.iam.dto.GradeManagerApplicationCreateDTO;
 import com.tencent.bk.sdk.iam.dto.GradeManagerApplicationUpdateDTO;
@@ -21,6 +22,7 @@ import com.tencent.bk.sdk.iam.dto.application.ApplicationVO;
 import com.tencent.bk.sdk.iam.dto.manager.AuthorizationScopes;
 import com.tencent.bk.sdk.iam.dto.manager.GroupMemberVerifyInfo;
 import com.tencent.bk.sdk.iam.dto.manager.ManagerRoleGroup;
+import com.tencent.bk.sdk.iam.dto.manager.RoleGroupMemberInfo;
 import com.tencent.bk.sdk.iam.dto.manager.dto.CreateManagerDTO;
 import com.tencent.bk.sdk.iam.dto.manager.dto.CreateSubsetManagerDTO;
 import com.tencent.bk.sdk.iam.dto.manager.dto.GroupMemberRenewApplicationDTO;
@@ -37,6 +39,7 @@ import com.tencent.bk.sdk.iam.dto.response.CallbackApplicationResponese;
 import com.tencent.bk.sdk.iam.dto.response.GradeManagerApplicationResponse;
 import com.tencent.bk.sdk.iam.dto.response.GroupPermissionDetailResponseDTO;
 import com.tencent.bk.sdk.iam.dto.response.ManagerDetailResponse;
+import com.tencent.bk.sdk.iam.dto.response.MemberGroupDetailsResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -63,13 +66,15 @@ public interface V2ManagerService {
 
     /**
      * 查询二级管理员详情
+     *
      * @param subsetManagerId 二级管理员ID
      */
     public ManagerDetailResponse getSubsetManagerDetail(String subsetManagerId);
 
     /**
      * 更新二级管理员
-     * @param subsetManagerId 二级管理员ID
+     *
+     * @param subsetManagerId        二级管理员ID
      * @param updateSubsetManagerDTO
      */
     public void updateSubsetManager(String subsetManagerId, UpdateSubsetManagerDTO updateSubsetManagerDTO);
@@ -184,6 +189,11 @@ public interface V2ManagerService {
     public ManagerGroupMemberVo getRoleGroupMemberV2(Integer groupId, V2PageInfoDTO pageInfoDTO);
 
     /**
+     * 用户组下模板列表
+     */
+    public List<RoleGroupMemberInfo> listRoleGroupTemplates(Integer groupId, V2PageInfoDTO pageInfoDTO);
+
+    /**
      * 用户组成员续期(不需要审批版本)
      */
     public void renewalRoleGroupMemberV2(Integer groupId, ManagerMemberGroupDTO managerMemberGroupDTO);
@@ -193,6 +203,10 @@ public interface V2ManagerService {
      */
     public void renewalRoleGroupMemberApplication(GroupMemberRenewApplicationDTO groupMemberRenewApplicationDTO);
 
+    /**
+     * 批量查询用户/组织/人员模板加入的用户组详情
+     */
+    public MemberGroupDetailsResponse listMemberGroupsDetails(String gradeManagerId, ManagerScopesEnum memberType, String memberId, String groupIds);
 
     /**
      * 查询用户组有权限的Action列表

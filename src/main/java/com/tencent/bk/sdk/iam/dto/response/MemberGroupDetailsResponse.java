@@ -11,16 +11,27 @@
 
 package com.tencent.bk.sdk.iam.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class GradeManagerApplicationResponse {
-    /*
-     * 权限中心申请单id
-     * */
-    private Integer id;
-    /*
-     * itsm返回的申请单sn
-     * */
-    private String sn;
+public class MemberGroupDetailsResponse {
+    @JsonProperty("group_id")
+    private Integer groupId;
+
+    @JsonProperty("group_name")
+    private String groupName;
+
+    @JsonProperty("group_description")
+    private String groupDescription;
+    /**
+     * 加入时间戳（秒级）
+     */
+    @JsonProperty("created_at")
+    private Long createdAt;
+    /**
+     * 过期时间戳（秒级）
+     */
+    @JsonProperty("expired_at")
+    private Long expiredAt;
 }

@@ -13,6 +13,7 @@ package com.tencent.bk.sdk.iam.service.v2.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tencent.bk.sdk.iam.config.IamConfiguration;
+import com.tencent.bk.sdk.iam.constants.ManagerScopesEnum;
 import com.tencent.bk.sdk.iam.constants.V2IamUri;
 import com.tencent.bk.sdk.iam.dto.CallbackApplicationDTO;
 import com.tencent.bk.sdk.iam.dto.GradeManagerApplicationCreateDTO;
@@ -25,6 +26,7 @@ import com.tencent.bk.sdk.iam.dto.application.ApplicationVO;
 import com.tencent.bk.sdk.iam.dto.manager.AuthorizationScopes;
 import com.tencent.bk.sdk.iam.dto.manager.GroupMemberVerifyInfo;
 import com.tencent.bk.sdk.iam.dto.manager.ManagerRoleGroup;
+import com.tencent.bk.sdk.iam.dto.manager.RoleGroupMemberInfo;
 import com.tencent.bk.sdk.iam.dto.manager.dto.CreateManagerDTO;
 import com.tencent.bk.sdk.iam.dto.manager.dto.CreateSubsetManagerDTO;
 import com.tencent.bk.sdk.iam.dto.manager.dto.GroupMemberRenewApplicationDTO;
@@ -42,6 +44,7 @@ import com.tencent.bk.sdk.iam.dto.response.CallbackApplicationResponese;
 import com.tencent.bk.sdk.iam.dto.response.GradeManagerApplicationResponse;
 import com.tencent.bk.sdk.iam.dto.response.GroupPermissionDetailResponseDTO;
 import com.tencent.bk.sdk.iam.dto.response.ManagerDetailResponse;
+import com.tencent.bk.sdk.iam.dto.response.MemberGroupDetailsResponse;
 import com.tencent.bk.sdk.iam.dto.response.ResponseDTO;
 import com.tencent.bk.sdk.iam.exception.IamException;
 import com.tencent.bk.sdk.iam.service.impl.ApigwHttpClientServiceImpl;
@@ -240,6 +243,34 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     }
 
     @Override
+    public List<RoleGroupMemberInfo> listRoleGroupTemplates(Integer groupId, V2PageInfoDTO pageInfoDTO) {
+        AuthRequestContext.setRequestName("V2_MANAGER_ROLE_GROUP_TEMPLATES_LIST");
+        String url = v2BuildURLPage(String.format(V2IamUri.V2_MANAGER_ROLE_GROUP_TEMPLATES_LIST, iamConfiguration.getSystemId(), groupId), pageInfoDTO);
+        try {
+            String responseStr = apigwHttpClientService.doHttpGet(url);
+            if (StringUtils.isNotBlank(responseStr)) {
+                log.debug("list role group templates response|{}", responseStr);
+                ResponseDTO<List<RoleGroupMemberInfo>> responseInfo = JsonUtil.fromJson(
+                    responseStr,
+                    new TypeReference<ResponseDTO<List<RoleGroupMemberInfo>>>() {
+                    });
+                if (responseInfo != null) {
+                    ResponseUtil.checkResponse(responseInfo);
+                    return responseInfo.getData();
+                }
+            } else {
+                log.warn("list role group templates got empty response!");
+            }
+        } catch (IamException iamException) {
+            throw iamException;
+        } catch (Exception e) {
+            log.error("list role group templates failed", e);
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    @Override
     public void renewalRoleGroupMemberV2(Integer groupId, ManagerMemberGroupDTO managerMemberGroupDTO) {
         try {
             AuthRequestContext.setRequestName("V2_MANAGER_ROLE_GROUP_MEMBER_RENEWAL");
@@ -284,6 +315,44 @@ public class V2ManagerServiceImpl implements V2ManagerService {
             log.error("renewal role group member application failed", e);
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public MemberGroupDetailsResponse listMemberGroupsDetails(
+        String gradeManagerId,
+        ManagerScopesEnum memberType,
+        String memberId,
+        String groupIds
+    ) {
+        try {
+            AuthRequestContext.setRequestName("V2_MEMBER_GROUPS_DETAILS_LIST");
+            String url = String.format(V2IamUri.V2_MEMBER_GROUP_DETAILS_GET,
+                iamConfiguration.getSystemId(),
+                gradeManagerId,
+                ManagerScopesEnum.getType(memberType),
+                memberId,
+                groupIds
+            );
+            String responseStr = apigwHttpClientService.doHttpGet(url);
+            if (StringUtils.isNotBlank(responseStr)) {
+                log.debug("list member groups details response|{}", responseStr);
+                ResponseDTO<MemberGroupDetailsResponse> responseInfo =
+                    JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<MemberGroupDetailsResponse>>() {
+                    });
+                if (responseInfo != null) {
+                    ResponseUtil.checkResponse(responseInfo);
+                    return responseInfo.getData();
+                }
+            } else {
+                log.warn("list member groups details got empty response!");
+            }
+        } catch (IamException iamException) {
+            throw iamException;
+        } catch (Exception e) {
+            log.error("list member groups details failed", e);
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
     @Override
