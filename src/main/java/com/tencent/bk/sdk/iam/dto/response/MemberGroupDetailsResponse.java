@@ -16,14 +16,9 @@ import lombok.Data;
 
 @Data
 public class MemberGroupDetailsResponse {
-    @JsonProperty("group_id")
-    private Integer groupId;
-
-    @JsonProperty("group_name")
-    private String groupName;
-
-    @JsonProperty("group_description")
-    private String groupDescription;
+    private Integer id;
+    private String name;
+    private String description;
     /**
      * 加入时间戳（秒级）
      */

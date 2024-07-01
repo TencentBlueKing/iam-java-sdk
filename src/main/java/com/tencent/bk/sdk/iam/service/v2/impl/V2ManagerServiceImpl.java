@@ -318,17 +318,11 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     }
 
     @Override
-    public MemberGroupDetailsResponse listMemberGroupsDetails(
-        String gradeManagerId,
-        ManagerScopesEnum memberType,
-        String memberId,
-        String groupIds
-    ) {
+    public List<MemberGroupDetailsResponse> listMemberGroupsDetails(ManagerScopesEnum memberType, String memberId, String groupIds) {
         try {
             AuthRequestContext.setRequestName("V2_MEMBER_GROUPS_DETAILS_LIST");
             String url = String.format(V2IamUri.V2_MEMBER_GROUP_DETAILS_GET,
                 iamConfiguration.getSystemId(),
-                gradeManagerId,
                 ManagerScopesEnum.getType(memberType),
                 memberId,
                 groupIds
@@ -336,8 +330,8 @@ public class V2ManagerServiceImpl implements V2ManagerService {
             String responseStr = apigwHttpClientService.doHttpGet(url);
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("list member groups details response|{}", responseStr);
-                ResponseDTO<MemberGroupDetailsResponse> responseInfo =
-                    JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<MemberGroupDetailsResponse>>() {
+                ResponseDTO<List<MemberGroupDetailsResponse>> responseInfo =
+                    JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<List<MemberGroupDetailsResponse>>>() {
                     });
                 if (responseInfo != null) {
                     ResponseUtil.checkResponse(responseInfo);
