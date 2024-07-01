@@ -206,7 +206,7 @@ public interface V2ManagerService {
     /**
      * 批量查询用户/组织/人员模板加入的用户组详情
      */
-    public MemberGroupDetailsResponse listMemberGroupsDetails(String gradeManagerId, ManagerScopesEnum memberType, String memberId, String groupIds);
+    public List<MemberGroupDetailsResponse> listMemberGroupsDetails(ManagerScopesEnum memberType, String memberId, String groupIds);
 
     /**
      * 查询用户组有权限的Action列表
