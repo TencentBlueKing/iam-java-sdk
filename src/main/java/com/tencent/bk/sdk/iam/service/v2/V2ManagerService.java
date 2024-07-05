@@ -15,6 +15,7 @@ import com.tencent.bk.sdk.iam.constants.ManagerScopesEnum;
 import com.tencent.bk.sdk.iam.dto.CallbackApplicationDTO;
 import com.tencent.bk.sdk.iam.dto.GradeManagerApplicationCreateDTO;
 import com.tencent.bk.sdk.iam.dto.GradeManagerApplicationUpdateDTO;
+import com.tencent.bk.sdk.iam.dto.ResponseData;
 import com.tencent.bk.sdk.iam.dto.V2PageInfoDTO;
 import com.tencent.bk.sdk.iam.dto.action.GroupAction;
 import com.tencent.bk.sdk.iam.dto.application.ApplicationDTO;
@@ -191,7 +192,7 @@ public interface V2ManagerService {
     /**
      * 用户组下模板列表
      */
-    public List<RoleGroupMemberInfo> listRoleGroupTemplates(Integer groupId, V2PageInfoDTO pageInfoDTO);
+    public ResponseData<RoleGroupMemberInfo> listRoleGroupTemplates(Integer groupId, V2PageInfoDTO pageInfoDTO);
 
     /**
      * 用户组成员续期(不需要审批版本)
