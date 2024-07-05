@@ -19,6 +19,7 @@ import com.tencent.bk.sdk.iam.dto.CallbackApplicationDTO;
 import com.tencent.bk.sdk.iam.dto.GradeManagerApplicationCreateDTO;
 import com.tencent.bk.sdk.iam.dto.GradeManagerApplicationUpdateDTO;
 import com.tencent.bk.sdk.iam.dto.PageInfoDTO;
+import com.tencent.bk.sdk.iam.dto.ResponseData;
 import com.tencent.bk.sdk.iam.dto.V2PageInfoDTO;
 import com.tencent.bk.sdk.iam.dto.action.GroupAction;
 import com.tencent.bk.sdk.iam.dto.application.ApplicationDTO;
@@ -243,16 +244,16 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     }
 
     @Override
-    public List<RoleGroupMemberInfo> listRoleGroupTemplates(Integer groupId, V2PageInfoDTO pageInfoDTO) {
+    public ResponseData<RoleGroupMemberInfo> listRoleGroupTemplates(Integer groupId, V2PageInfoDTO pageInfoDTO) {
         AuthRequestContext.setRequestName("V2_MANAGER_ROLE_GROUP_TEMPLATES_LIST");
         String url = v2BuildURLPage(String.format(V2IamUri.V2_MANAGER_ROLE_GROUP_TEMPLATES_LIST, iamConfiguration.getSystemId(), groupId), pageInfoDTO);
         try {
             String responseStr = apigwHttpClientService.doHttpGet(url);
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("list role group templates response|{}", responseStr);
-                ResponseDTO<List<RoleGroupMemberInfo>> responseInfo = JsonUtil.fromJson(
+                ResponseDTO<ResponseData<RoleGroupMemberInfo>> responseInfo = JsonUtil.fromJson(
                     responseStr,
-                    new TypeReference<ResponseDTO<List<RoleGroupMemberInfo>>>() {
+                    new TypeReference<ResponseDTO<ResponseData<RoleGroupMemberInfo>>>() {
                     });
                 if (responseInfo != null) {
                     ResponseUtil.checkResponse(responseInfo);

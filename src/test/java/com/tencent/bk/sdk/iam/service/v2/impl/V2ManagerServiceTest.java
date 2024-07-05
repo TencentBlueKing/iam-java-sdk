@@ -13,9 +13,10 @@ package com.tencent.bk.sdk.iam.service.v2.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tencent.bk.sdk.iam.config.IamConfiguration;
+import com.tencent.bk.sdk.iam.constants.ManagerScopesEnum;
 import com.tencent.bk.sdk.iam.dto.GradeManagerApplicationCreateDTO;
 import com.tencent.bk.sdk.iam.dto.GradeManagerApplicationUpdateDTO;
-import com.tencent.bk.sdk.iam.dto.PageInfoDTO;
+import com.tencent.bk.sdk.iam.dto.ResponseData;
 import com.tencent.bk.sdk.iam.dto.SubjectDTO;
 import com.tencent.bk.sdk.iam.dto.V2PageInfoDTO;
 import com.tencent.bk.sdk.iam.dto.V2QueryPolicyDTO;
@@ -36,6 +37,7 @@ import com.tencent.bk.sdk.iam.dto.manager.ManagerPath;
 import com.tencent.bk.sdk.iam.dto.manager.ManagerResources;
 import com.tencent.bk.sdk.iam.dto.manager.ManagerRoleGroup;
 import com.tencent.bk.sdk.iam.dto.manager.ManagerScopes;
+import com.tencent.bk.sdk.iam.dto.manager.RoleGroupMemberInfo;
 import com.tencent.bk.sdk.iam.dto.manager.dto.CreateManagerDTO;
 import com.tencent.bk.sdk.iam.dto.manager.dto.CreateSubsetManagerDTO;
 import com.tencent.bk.sdk.iam.dto.manager.dto.GroupMemberRenewApplicationDTO;
@@ -52,6 +54,7 @@ import com.tencent.bk.sdk.iam.dto.resource.V2ResourceNode;
 import com.tencent.bk.sdk.iam.dto.response.GradeManagerApplicationResponse;
 import com.tencent.bk.sdk.iam.dto.response.GroupPermissionDetailResponseDTO;
 import com.tencent.bk.sdk.iam.dto.response.ManagerDetailResponse;
+import com.tencent.bk.sdk.iam.dto.response.MemberGroupDetailsResponse;
 import com.tencent.bk.sdk.iam.dto.system.SystemFieldDTO;
 import com.tencent.bk.sdk.iam.service.IamActionService;
 import com.tencent.bk.sdk.iam.service.IamResourceService;
@@ -66,23 +69,22 @@ import com.tencent.bk.sdk.iam.service.impl.ResourceServiceImpl;
 import com.tencent.bk.sdk.iam.service.impl.SystemServiceImpl;
 import com.tencent.bk.sdk.iam.service.v2.V2ManagerService;
 import com.tencent.bk.sdk.iam.util.JsonUtil;
-import java.util.Collections;
-import java.util.Map;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Disabled
 public class V2ManagerServiceTest {
     private IamConfiguration iamConfiguration = new IamConfiguration
-        ("", "", "",
-            "", "");
+        ("", "", "", "", "");
     private ApigwHttpClientServiceImpl apigwHttpClientService = new ApigwHttpClientServiceImpl(iamConfiguration);
     V2ManagerService v2ManagerService = new V2ManagerServiceImpl(apigwHttpClientService, iamConfiguration);
     ManagerService managerService = new ManagerServiceImpl(apigwHttpClientService, iamConfiguration);
@@ -545,12 +547,12 @@ public class V2ManagerServiceTest {
         action.setId("pipeline_list");
 
         ResourceDTO resource = ResourceDTO.builder()
-                .type("pipeline")
-                .id("p-42f8638d709a4fc9b6e9292f1c232456")
-                .system(iamConfiguration.getSystemId())
-                .build();
+            .type("pipeline")
+            .id("p-42f8638d709a4fc9b6e9292f1c232456")
+            .system(iamConfiguration.getSystemId())
+            .build();
         Map<String, Boolean> result = policyService.batchVerifyPermissions(
-                "mingshewhe", Collections.singletonList(action), Collections.singletonList(resource)
+            "mingshewhe", Collections.singletonList(action), Collections.singletonList(resource)
         );
         System.out.println(result);
     }
@@ -561,12 +563,12 @@ public class V2ManagerServiceTest {
         action.setId("pipeline_list");
 
         ResourceDTO resource = ResourceDTO.builder()
-                .type("pipeline")
-                .id("p-42f8638d709a4fc9b6e9292f1c232456")
-                .system(iamConfiguration.getSystemId())
-                .build();
+            .type("pipeline")
+            .id("p-42f8638d709a4fc9b6e9292f1c232456")
+            .system(iamConfiguration.getSystemId())
+            .build();
         Map<String, Boolean> result = v2PolicyService.batchVerifyPermissions(
-                "mingshewhe", Collections.singletonList(action), Collections.singletonList(resource)
+            "mingshewhe", Collections.singletonList(action), Collections.singletonList(resource)
         );
         System.out.println(result);
     }
@@ -577,13 +579,35 @@ public class V2ManagerServiceTest {
         action.setId("pipeline_list");
 
         ResourceDTO resource = ResourceDTO.builder()
-                .type("pipeline")
-                .id("p-42f8638d709a4fc9b6e9292f1c232456")
-                .system(iamConfiguration.getSystemId())
-                .build();
+            .type("pipeline")
+            .id("p-42f8638d709a4fc9b6e9292f1c232456")
+            .system(iamConfiguration.getSystemId())
+            .build();
         List<ActionPolicyDTO> actionPolilcyDTOList = v2PolicyService.batchGetPolicyByActionList(
-                "mingshewhe", Collections.singletonList(action), Collections.singletonList(resource)
+            "mingshewhe", Collections.singletonList(action), Collections.singletonList(resource)
         );
         System.out.println(actionPolilcyDTOList);
+    }
+
+    @Test
+    public void testListRoleGroupTemplates() {
+        V2PageInfoDTO pageInfoDTO = new V2PageInfoDTO();
+        pageInfoDTO.setPageSize(10);
+        pageInfoDTO.setPage(1);
+        ResponseData<RoleGroupMemberInfo> roleGroupMemberInfoResponseData = v2ManagerService.listRoleGroupTemplates(
+            532267, pageInfoDTO
+        );
+        System.out.println(roleGroupMemberInfoResponseData);
+    }
+
+    @Test
+    public void testListMemberGroupsDetails() {
+        V2PageInfoDTO pageInfoDTO = new V2PageInfoDTO();
+        pageInfoDTO.setPageSize(10);
+        pageInfoDTO.setPage(1);
+        List<MemberGroupDetailsResponse> greysonfang = v2ManagerService.listMemberGroupsDetails(
+            ManagerScopesEnum.USER, "", ""
+        );
+        System.out.println(greysonfang);
     }
 }
