@@ -606,7 +606,7 @@ public class V2ManagerServiceTest {
         pageInfoDTO.setPageSize(10);
         pageInfoDTO.setPage(1);
         List<MemberGroupDetailsResponse> greysonfang = v2ManagerService.listMemberGroupsDetails(
-            ManagerScopesEnum.USER, "", ""
+                ManagerScopesEnum.getType(ManagerScopesEnum.USER), "", ""
         );
         System.out.println(greysonfang);
     }
