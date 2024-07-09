@@ -319,12 +319,12 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     }
 
     @Override
-    public List<MemberGroupDetailsResponse> listMemberGroupsDetails(ManagerScopesEnum memberType, String memberId, String groupIds) {
+    public List<MemberGroupDetailsResponse> listMemberGroupsDetails(String memberType, String memberId, String groupIds) {
         try {
             AuthRequestContext.setRequestName("V2_MEMBER_GROUPS_DETAILS_LIST");
             String url = String.format(V2IamUri.V2_MEMBER_GROUP_DETAILS_GET,
                 iamConfiguration.getSystemId(),
-                ManagerScopesEnum.getType(memberType),
+                memberType,
                 memberId,
                 groupIds
             );
