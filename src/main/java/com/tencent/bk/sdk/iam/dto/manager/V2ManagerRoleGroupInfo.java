@@ -42,6 +42,11 @@ public class V2ManagerRoleGroupInfo {
     @JsonProperty("department_count")
     private Integer departmentCount;
     /**
+     * 用户组成员人员模板数量
+     */
+    @JsonProperty("subject_template_count")
+    private Integer templateCount;
+    /**
      * 是否已经加入用户组
      */
     private Boolean joined;
