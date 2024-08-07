@@ -58,4 +58,28 @@ public class V2GrantServiceImpl implements V2GrantService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void revokeRoleGroupPolicies(Integer groupId, ManagerRoleGroupGrantDTO managerRoleGroupGrantDTO) {
+        AuthRequestContext.setRequestName("V2_MANAGER_ROLE_GROUP_GRANT_REVOKE");
+        String url = String.format(V2IamUri.V2_MANAGER_ROLE_GROUP_GRANT_REVOKE, iamConfiguration.getSystemId(), groupId);
+        try {
+            String responseStr = apigwHttpClientService.doHttpDelete(url, managerRoleGroupGrantDTO);
+            if (StringUtils.isNotBlank(responseStr)) {
+                log.debug("revoke role group policies response|{}", responseStr);
+                ResponseDTO<Object> responseInfo = JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<Object>>() {
+                });
+                if (responseInfo != null) {
+                    ResponseUtil.checkResponse(responseInfo);
+                }
+            } else {
+                log.warn("revoke role group policies got empty response!");
+            }
+        } catch (IamException iamException) {
+            throw iamException;
+        } catch (Exception e) {
+            log.error("revoke role group policies failed", e);
+            throw new RuntimeException(e);
+        }
+    }
 }
