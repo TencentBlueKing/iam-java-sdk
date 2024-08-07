@@ -22,4 +22,13 @@ public interface V2GrantService {
      * @return
      */
     public void v2GrantRoleGroup(Integer groupId, ManagerRoleGroupGrantDTO managerRoleGroupGrantDTO);
+
+    /**
+     * 用户组授权回收
+     *
+     * @param groupId
+     * @param managerRoleGroupGrantDTO
+     * @return
+     */
+    public void revokeRoleGroupPolicies(Integer groupId, ManagerRoleGroupGrantDTO managerRoleGroupGrantDTO);
 }
