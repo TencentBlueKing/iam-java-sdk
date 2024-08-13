@@ -18,3 +18,10 @@
 ## IAM v1.0.6
 
 - [优化] 优化获取分级管理员的用户组列表 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/94)
+
+## IAM v1.0.7
+
+- [新增] 回调枚举类增加类型 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/98)
+- [新增] 新增用户管理相关接口 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/100)
+- [新增] 获取二级管理员下用户组，增加人员模板数量 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/105)
+- [新增] 增加回收组权限接口 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/107)
