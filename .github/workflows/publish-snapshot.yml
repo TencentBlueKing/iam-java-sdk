@@ -6,7 +6,7 @@ name: deploy iam-java-sdk jar to OSS snapshot repository
 on:
   push:
     branches:
-      - master
+      - *
 
 jobs:
   build:
