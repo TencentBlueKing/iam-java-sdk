@@ -29,7 +29,9 @@ public class AuthorizationScopes {
      */
     String system;
 
+    @Builder.Default
     List<Action> actions = new ArrayList<>();
 
+    @Builder.Default
     List<ManagerResources> resources = new ArrayList<>();
 }

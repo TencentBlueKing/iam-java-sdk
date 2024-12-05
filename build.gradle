@@ -13,8 +13,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {
@@ -29,10 +29,10 @@ ext {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
     set('jacksonVersion', "2.9.10")
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
-    set('lombokVersion', '1.18.10')
+    set('lombokVersion', '1.18.36')
     set("junitVersion", "5.4.2")
 
-    String iamVersion = (System.getProperty("iamVersion") ?: "1.0.53")
+    String iamVersion = (System.getProperty("iamVersion") ?: "2.0.0")
     if (System.getProperty("snapshot") == "true") {
         set('iamVersion', iamVersion + "-SNAPSHOT")
     } else {
@@ -65,8 +65,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation(group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30')
 
-    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
-    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+    // https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api
+    compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '6.1.0'
 
     // Use JUnit Jupiter API for testing.
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
@@ -88,7 +88,7 @@ jar {
                 "Implementation-Title": "Gradle")
     }
     into('lib') {
-        from configurations.runtime
+        from configurations.runtimeClasspath
     }
 }
 

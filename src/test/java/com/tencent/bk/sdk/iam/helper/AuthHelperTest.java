@@ -192,17 +192,18 @@ public class AuthHelperTest {
 		List<ExpressionDTO> content = new ArrayList<>(2);
 		expressionDTO3.setContent(content);
 
+		ExpressionDTO expressionDTO32 = new ExpressionDTO();
+		expressionDTO32.setOperator(ExpressionOperationEnum.IN);
+		expressionDTO32.setField("project.id");
+		expressionDTO32.setValue(Arrays.asList("demo", "test1"));
+		content.add(expressionDTO32);
+
 		ExpressionDTO expressionDTO31 = new ExpressionDTO();
 		expressionDTO31.setOperator(ExpressionOperationEnum.ANY);
 		expressionDTO31.setField("project.id");
 		expressionDTO31.setValue(Collections.emptyList());
 		content.add(expressionDTO31);
 
-		ExpressionDTO expressionDTO32 = new ExpressionDTO();
-		expressionDTO32.setOperator(ExpressionOperationEnum.IN);
-		expressionDTO32.setField("project.id");
-		expressionDTO32.setValue(Arrays.asList("demo", "test1"));
-		content.add(expressionDTO32);
 		Assertions.assertEquals(
 				Arrays.asList("*", "demo", "test1"),
 				AuthHelper.calculateInstanceList(expressionDTO3,"project", null)

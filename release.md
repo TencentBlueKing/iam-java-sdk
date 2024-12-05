@@ -25,3 +25,7 @@
 - [新增] 新增用户管理相关接口 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/100)
 - [新增] 获取二级管理员下用户组，增加人员模板数量 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/105)
 - [新增] 增加回收组权限接口 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/107)
+
+## IAM v2.0.0
+
+- [新增] 支持JDK17
