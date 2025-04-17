@@ -9,31 +9,15 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.tencent.bk.sdk.iam.config;
+package com.tencent.bk.sdk.iam.dto.manager.vo;
 
+import com.tencent.bk.sdk.iam.dto.manager.GradeManagerInfo;
 import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @Data
-@RequiredArgsConstructor
-public class IamConfiguration {
-
-    @NonNull
-    private String systemId;
-
-    @NonNull
-    private String appCode;
-
-    @NonNull
-    private String appSecret;
-
-    @NonNull
-    private String iamBaseUrl;
-
-    @NonNull
-    private String apigwBaseUrl;
-
-    @NonNull
-    private Boolean enableMultiTenantMode;
+public class GradeManagerListVO {
+    private Integer count;
+    private List<GradeManagerInfo> results;
 }
