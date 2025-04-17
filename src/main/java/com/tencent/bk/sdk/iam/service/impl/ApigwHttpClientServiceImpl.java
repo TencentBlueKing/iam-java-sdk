@@ -18,6 +18,7 @@ import com.tencent.bk.sdk.iam.exception.IamException;
 import com.tencent.bk.sdk.iam.service.HttpClientService;
 import com.tencent.bk.sdk.iam.util.AuthRequestContext;
 import com.tencent.bk.sdk.iam.util.JsonUtil;
+import com.tencent.bk.sdk.iam.util.ThreadUtil;
 import com.tencent.bk.sdk.iam.util.http.DefaultApacheHttpClientBuilder;
 import com.tencent.bk.sdk.iam.util.http.HttpDeleteWithBody;
 import lombok.extern.slf4j.Slf4j;
@@ -145,6 +146,7 @@ public class ApigwHttpClientServiceImpl implements HttpClientService {
         } finally {
             HttpClientUtils.closeQuietly(response);
             AuthRequestContext.remove();
+            ThreadUtil.clearTenantId();
         }
     }
 
@@ -157,6 +159,15 @@ public class ApigwHttpClientServiceImpl implements HttpClientService {
     private void buildAuthHeader(HttpRequestBase httpRequest) {
         Map<String, String> header = new HashMap<>();
         try {
+            String tenantId = ThreadUtil.getTenantId();
+            if (iamConfiguration.getEnableMultiTenantMode() && tenantId == null) {
+                log.warn("enableMultiTenantMode but get tenantId is null");
+                throw new RuntimeException("enableMultiTenantMode but get tenantId is null");
+            }
+            if (tenantId != null) {
+                httpRequest.setHeader(HttpHeader.BK_TENANT_ID, tenantId);
+                ThreadUtil.clearTenantId();
+            }
             header.put(HttpHeader.APIGW_BK_APP_CODE, iamConfiguration.getAppCode());
             header.put(HttpHeader.APIGW_BK_APP_SECRET, iamConfiguration.getAppSecret());
             String headerStr = JsonUtil.toJson(header);

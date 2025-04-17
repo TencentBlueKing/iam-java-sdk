@@ -24,6 +24,7 @@ import com.tencent.bk.sdk.iam.service.SystemService;
 import com.tencent.bk.sdk.iam.util.AuthRequestContext;
 import com.tencent.bk.sdk.iam.util.JsonUtil;
 import com.tencent.bk.sdk.iam.util.ResponseUtil;
+import com.tencent.bk.sdk.iam.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -159,5 +160,41 @@ public class ResourceServiceImpl implements IamResourceService {
             log.warn("update resource InstanceSelector fail. {}|{}", instanceSelector, e);
         }
         return false;
+    }
+
+    @Override
+    public boolean resourceCheck(String resourceType, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.resourceCheck(resourceType);
+    }
+
+    @Override
+    public boolean createResource(List<ResourceTypeDTO> resourceTypeDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.createResource(resourceTypeDTO);
+    }
+
+    @Override
+    public boolean updateResource(ResourceTypeDTO resourceTypeDTO, String resourceId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.updateResource(resourceTypeDTO, resourceId);
+    }
+
+    @Override
+    public List<SelectionDTO> getSystemInstanceSelector(String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getSystemInstanceSelector();
+    }
+
+    @Override
+    public boolean createResourceInstanceSelector(List<SelectionDTO> instanceSelector, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.createResourceInstanceSelector(instanceSelector);
+    }
+
+    @Override
+    public boolean updateResourceInstanceSelector(String selectionId, SelectionDTO instanceSelector, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.updateResourceInstanceSelector(selectionId, instanceSelector);
     }
 }

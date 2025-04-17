@@ -27,6 +27,7 @@ import com.tencent.bk.sdk.iam.service.HttpClientService;
 import com.tencent.bk.sdk.iam.util.AuthRequestContext;
 import com.tencent.bk.sdk.iam.util.JsonUtil;
 import com.tencent.bk.sdk.iam.util.ResponseUtil;
+import com.tencent.bk.sdk.iam.util.ThreadUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -66,6 +67,31 @@ public class GrantServiceImpl implements GrantService {
 	public List<BatchGrantPolicyDTO> batchGrantPermission(String userId, List<String> actions, List<GrantResourceDTO> resources) {
 		return batchGrantAndRemove(userId, actions, GrantType.REVOKE, resources);
 	}
+
+	@Override
+	public GrantPolicyDTO grantPermission(String userId, String action, List<GrantResourceDTO> resources, String tenantId) {
+		ThreadUtil.setTenantId(tenantId);
+		return grantPermission(userId, action, resources);
+	}
+
+	@Override
+	public GrantPolicyDTO revokePermission(String userId, String action, List<GrantResourceDTO> resources, String tenantId) {
+		ThreadUtil.setTenantId(tenantId);
+		return revokePermission(userId, action, resources);
+	}
+
+	@Override
+	public List<BatchGrantPolicyDTO> batchRevokePermission(String userId, List<String> actions, List<GrantResourceDTO> resources, String tenantId) {
+		ThreadUtil.setTenantId(tenantId);
+		return batchRevokePermission(userId, actions, resources);
+	}
+
+	@Override
+	public List<BatchGrantPolicyDTO> batchGrantPermission(String userId, List<String> actions, List<GrantResourceDTO> resources, String tenantId) {
+		ThreadUtil.setTenantId(tenantId);
+		return batchGrantPermission(userId, actions, resources);
+	}
+
 
 	@SneakyThrows
 	private GrantPolicyDTO grantAndRemove(String userId, String action, GrantType grantType, List<GrantResourceDTO> resourceList) {

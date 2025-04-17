@@ -18,4 +18,12 @@ public interface TokenService {
      * @return 鉴权 Token
      */
     String getToken();
+
+    /**
+     * 获取 CMDB 鉴权 Token
+     *
+     * @param tenantId
+     * @return
+     */
+    String getToken(String tenantId);
 }
