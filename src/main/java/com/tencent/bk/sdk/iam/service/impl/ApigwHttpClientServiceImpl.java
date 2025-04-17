@@ -18,6 +18,7 @@ import com.tencent.bk.sdk.iam.exception.IamException;
 import com.tencent.bk.sdk.iam.service.HttpClientService;
 import com.tencent.bk.sdk.iam.util.AuthRequestContext;
 import com.tencent.bk.sdk.iam.util.JsonUtil;
+import com.tencent.bk.sdk.iam.util.ThreadUtil;
 import com.tencent.bk.sdk.iam.util.http.DefaultApacheHttpClientBuilder;
 import com.tencent.bk.sdk.iam.util.http.HttpDeleteWithBody;
 import lombok.extern.slf4j.Slf4j;
@@ -161,6 +162,11 @@ public class ApigwHttpClientServiceImpl implements HttpClientService {
             header.put(HttpHeader.APIGW_BK_APP_SECRET, iamConfiguration.getAppSecret());
             String headerStr = JsonUtil.toJson(header);
             httpRequest.setHeader(HttpHeader.AUTHORIZATION_HEAD, headerStr);
+            String tenantId = ThreadUtil.getTenantId();
+            if (tenantId != null) {
+                httpRequest.setHeader(HttpHeader.BK_TENANT_ID, tenantId);
+                ThreadUtil.clearTenantId();
+            }
         } catch (Exception e) {
             log.warn("buildHeader fail");
         }
