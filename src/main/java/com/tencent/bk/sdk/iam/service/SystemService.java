@@ -13,8 +13,9 @@ package com.tencent.bk.sdk.iam.service;
 
 import com.tencent.bk.sdk.iam.dto.system.SystemDTO;
 import com.tencent.bk.sdk.iam.dto.system.SystemFieldDTO;
+import com.tencent.bk.sdk.iam.service.decorator.IamService;
 
-public interface SystemService {
+public interface SystemService extends IamService {
 
     Boolean systemCheck(String systemId);
 

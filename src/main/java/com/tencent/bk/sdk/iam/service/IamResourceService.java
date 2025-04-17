@@ -13,10 +13,11 @@ package com.tencent.bk.sdk.iam.service;
 
 import com.tencent.bk.sdk.iam.dto.SelectionDTO;
 import com.tencent.bk.sdk.iam.dto.resource.ResourceTypeDTO;
+import com.tencent.bk.sdk.iam.service.decorator.IamService;
 
 import java.util.List;
 
-public interface IamResourceService {
+public interface IamResourceService extends IamService {
     /**
      * 检查资源是否存在
      */

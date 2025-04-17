@@ -12,8 +12,9 @@
 package com.tencent.bk.sdk.iam.service.v2;
 
 import com.tencent.bk.sdk.iam.dto.grant.ManagerRoleGroupGrantDTO;
+import com.tencent.bk.sdk.iam.service.decorator.IamService;
 
-public interface V2GrantService {
+public interface V2GrantService extends IamService {
     /**
      * 用户组授权
      *

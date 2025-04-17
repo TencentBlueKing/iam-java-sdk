@@ -65,6 +65,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation(group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30')
 
+    // aspect
+    implementation(group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.24')
+
     // https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api
     compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '6.1.0'
 

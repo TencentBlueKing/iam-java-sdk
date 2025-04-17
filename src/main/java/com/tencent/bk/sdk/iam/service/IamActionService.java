@@ -15,10 +15,11 @@ import com.tencent.bk.sdk.iam.dto.action.ActionDTO;
 import com.tencent.bk.sdk.iam.dto.action.ActionGroupDTO;
 import com.tencent.bk.sdk.iam.dto.action.ActionUpdateDTO;
 import com.tencent.bk.sdk.iam.dto.resource.ResourceCreatorActionsDTO;
+import com.tencent.bk.sdk.iam.service.decorator.IamService;
 
 import java.util.List;
 
-public interface IamActionService {
+public interface IamActionService extends IamService {
     // 获取系统注册的所有的action
     ResourceCreatorActionsDTO getResourceCreatorAction();
 

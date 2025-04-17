@@ -5,8 +5,8 @@ import com.tencent.bk.sdk.iam.util.ThreadUtil;
 /**
  * 装饰器
  */
-public class IamDecorator<T> {
-    public T decorate(T origin, String tenantId) {
+public class IamDecorator {
+    public static <T extends IamService> T decorate(T origin, String tenantId) {
         ThreadUtil.setTenantId(tenantId);
         return origin;
     }

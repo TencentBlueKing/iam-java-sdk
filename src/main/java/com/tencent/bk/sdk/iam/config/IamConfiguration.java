@@ -27,4 +27,6 @@ public class IamConfiguration {
     private String iamBaseUrl;
 
     private String apigwBaseUrl;
+
+    private Boolean enableMultiTenantMode = false;
 }

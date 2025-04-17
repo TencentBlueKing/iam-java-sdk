@@ -14,10 +14,11 @@ package com.tencent.bk.sdk.iam.service;
 import com.tencent.bk.sdk.iam.dto.grant.BatchGrantPolicyDTO;
 import com.tencent.bk.sdk.iam.dto.grant.GrantPolicyDTO;
 import com.tencent.bk.sdk.iam.dto.grant.GrantResourceDTO;
+import com.tencent.bk.sdk.iam.service.decorator.IamService;
 
 import java.util.List;
 
-public interface GrantService {
+public interface GrantService extends IamService {
     /**
      * 给用户授予权限
      */

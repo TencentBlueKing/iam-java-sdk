@@ -20,9 +20,11 @@ import com.tencent.bk.sdk.iam.dto.action.ActionDTO;
 import com.tencent.bk.sdk.iam.dto.action.ActionPolicyDTO;
 import com.tencent.bk.sdk.iam.dto.expression.ExpressionDTO;
 import com.tencent.bk.sdk.iam.dto.resource.ResourceDTO;
+import com.tencent.bk.sdk.iam.service.decorator.IamService;
+
 import java.util.Map;
 
-public interface PolicyService {
+public interface PolicyService extends IamService {
 
     /**
      * 根据操作拉取权限表达式

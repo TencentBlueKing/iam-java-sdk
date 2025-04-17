@@ -158,15 +158,19 @@ public class ApigwHttpClientServiceImpl implements HttpClientService {
     private void buildAuthHeader(HttpRequestBase httpRequest) {
         Map<String, String> header = new HashMap<>();
         try {
-            header.put(HttpHeader.APIGW_BK_APP_CODE, iamConfiguration.getAppCode());
-            header.put(HttpHeader.APIGW_BK_APP_SECRET, iamConfiguration.getAppSecret());
-            String headerStr = JsonUtil.toJson(header);
-            httpRequest.setHeader(HttpHeader.AUTHORIZATION_HEAD, headerStr);
             String tenantId = ThreadUtil.getTenantId();
+            if (iamConfiguration.getEnableMultiTenantMode() && tenantId == null) {
+                log.warn("enableMultiTenantMode but get tenantId is null");
+                throw new RuntimeException("enableMultiTenantMode but get tenantId is null");
+            }
             if (tenantId != null) {
                 httpRequest.setHeader(HttpHeader.BK_TENANT_ID, tenantId);
                 ThreadUtil.clearTenantId();
             }
+            header.put(HttpHeader.APIGW_BK_APP_CODE, iamConfiguration.getAppCode());
+            header.put(HttpHeader.APIGW_BK_APP_SECRET, iamConfiguration.getAppSecret());
+            String headerStr = JsonUtil.toJson(header);
+            httpRequest.setHeader(HttpHeader.AUTHORIZATION_HEAD, headerStr);
         } catch (Exception e) {
             log.warn("buildHeader fail");
         }

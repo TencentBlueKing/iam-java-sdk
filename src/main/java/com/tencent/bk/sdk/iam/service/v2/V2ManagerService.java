@@ -40,13 +40,14 @@ import com.tencent.bk.sdk.iam.dto.response.GradeManagerApplicationResponse;
 import com.tencent.bk.sdk.iam.dto.response.GroupPermissionDetailResponseDTO;
 import com.tencent.bk.sdk.iam.dto.response.ManagerDetailResponse;
 import com.tencent.bk.sdk.iam.dto.response.MemberGroupDetailsResponse;
+import com.tencent.bk.sdk.iam.service.decorator.IamService;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 // v2类接口使用于RBAC权限;对于ABAC权限，使用v1接口
-public interface V2ManagerService {
+public interface V2ManagerService extends IamService {
     //----------------二级管理员相关接口----------------
 
     /**

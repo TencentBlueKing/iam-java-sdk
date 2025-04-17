@@ -24,11 +24,12 @@ import com.tencent.bk.sdk.iam.dto.manager.dto.ManagerRoleMemberDTO;
 import com.tencent.bk.sdk.iam.dto.manager.vo.CreateVo;
 import com.tencent.bk.sdk.iam.dto.manager.vo.ManagerGroupMemberVo;
 import com.tencent.bk.sdk.iam.dto.manager.vo.ManagerRoleGroupVO;
+import com.tencent.bk.sdk.iam.service.decorator.IamService;
 
 import java.io.IOException;
 import java.util.List;
 
-public interface ManagerService {
+public interface ManagerService extends IamService {
     /**
      * 创建分级管理员
      *

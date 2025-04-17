@@ -11,7 +11,9 @@
 
 package com.tencent.bk.sdk.iam.service;
 
-public interface HttpClientService {
+import com.tencent.bk.sdk.iam.service.decorator.IamService;
+
+public interface HttpClientService extends IamService {
 
     /**
      * 发起 HTTP GET 请求
