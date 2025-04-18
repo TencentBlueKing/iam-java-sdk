@@ -11,21 +11,27 @@
 
 package com.tencent.bk.sdk.iam.config;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class IamConfiguration {
 
+    @NonNull
     private String systemId;
 
+    @NonNull
     private String appCode;
 
+    @NonNull
     private String appSecret;
 
+    @NonNull
     private String iamBaseUrl;
 
+    @NonNull
     private String apigwBaseUrl;
 
     private Boolean enableMultiTenantMode = false;

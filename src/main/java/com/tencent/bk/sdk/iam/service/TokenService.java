@@ -11,13 +11,19 @@
 
 package com.tencent.bk.sdk.iam.service;
 
-import com.tencent.bk.sdk.iam.service.decorator.IamService;
-
-public interface TokenService extends IamService {
+public interface TokenService {
     /**
      * 获取 CMDB 鉴权 Token
      *
      * @return 鉴权 Token
      */
     String getToken();
+
+    /**
+     * 获取 CMDB 鉴权 Token
+     *
+     * @param tenantId
+     * @return
+     */
+    String getToken(String tenantId);
 }

@@ -12,9 +12,8 @@
 package com.tencent.bk.sdk.iam.service.v2;
 
 import com.tencent.bk.sdk.iam.dto.grant.ManagerRoleGroupGrantDTO;
-import com.tencent.bk.sdk.iam.service.decorator.IamService;
 
-public interface V2GrantService extends IamService {
+public interface V2GrantService {
     /**
      * 用户组授权
      *
@@ -32,4 +31,22 @@ public interface V2GrantService extends IamService {
      * @return
      */
     public void revokeRoleGroupPolicies(Integer groupId, ManagerRoleGroupGrantDTO managerRoleGroupGrantDTO);
+
+    /**
+     * 用户组授权(带租户)
+     *
+     * @param groupId                  用户组ID
+     * @param managerRoleGroupGrantDTO 授权信息
+     * @param tenantId                 租户ID
+     */
+    public void v2GrantRoleGroup(Integer groupId, ManagerRoleGroupGrantDTO managerRoleGroupGrantDTO, String tenantId);
+
+    /**
+     * 用户组授权回收(带租户)
+     *
+     * @param groupId                  用户组ID
+     * @param managerRoleGroupGrantDTO 授权信息
+     * @param tenantId                 租户ID
+     */
+    public void revokeRoleGroupPolicies(Integer groupId, ManagerRoleGroupGrantDTO managerRoleGroupGrantDTO, String tenantId);
 }

@@ -15,11 +15,10 @@ import com.tencent.bk.sdk.iam.dto.action.ActionDTO;
 import com.tencent.bk.sdk.iam.dto.action.ActionGroupDTO;
 import com.tencent.bk.sdk.iam.dto.action.ActionUpdateDTO;
 import com.tencent.bk.sdk.iam.dto.resource.ResourceCreatorActionsDTO;
-import com.tencent.bk.sdk.iam.service.decorator.IamService;
 
 import java.util.List;
 
-public interface IamActionService extends IamService {
+public interface IamActionService {
     // 获取系统注册的所有的action
     ResourceCreatorActionsDTO getResourceCreatorAction();
 
@@ -49,4 +48,95 @@ public interface IamActionService extends IamService {
 
     // 修改关联操作
     Boolean updateResourceCreatorAction(ResourceCreatorActionsDTO resourceCreatorActionsDTO);
+
+    /**
+     * 获取系统注册的所有的action
+     *
+     * @param tenantId 租户ID
+     * @return 资源创建者操作DTO
+     */
+    ResourceCreatorActionsDTO getResourceCreatorAction(String tenantId);
+
+    /**
+     * 获取操作
+     *
+     * @param actionId 操作ID
+     * @param tenantId 租户ID
+     * @return 操作DTO
+     */
+    ActionDTO getAction(String actionId, String tenantId);
+
+    /**
+     * 创建操作
+     *
+     * @param actionDTO 操作DTO列表
+     * @param tenantId  租户ID
+     * @return 是否创建成功
+     */
+    Boolean createAction(List<ActionDTO> actionDTO, String tenantId);
+
+    /**
+     * 更新操作
+     *
+     * @param actionId  操作ID
+     * @param actionDTO 操作更新DTO
+     * @param tenantId  租户ID
+     * @return 是否更新成功
+     */
+    Boolean updateAction(String actionId, ActionUpdateDTO actionDTO, String tenantId);
+
+    /**
+     * 删除操作
+     *
+     * @param actionId       操作ID
+     * @param checkExistence 是否检查存在性
+     * @param tenantId       租户ID
+     * @return 是否删除成功
+     */
+    Boolean deleteAction(String actionId, Boolean checkExistence, String tenantId);
+
+    /**
+     * 获取操作组
+     *
+     * @param groupName 组名
+     * @param tenantId  租户ID
+     * @return 操作组DTO
+     */
+    ActionGroupDTO getActionGroup(String groupName, String tenantId);
+
+    /**
+     * 创建操作组
+     *
+     * @param actionGroupDTO 操作组DTO列表
+     * @param tenantId       租户ID
+     * @return 是否创建成功
+     */
+    Boolean createActionGroup(List<ActionGroupDTO> actionGroupDTO, String tenantId);
+
+    /**
+     * 更新操作组
+     *
+     * @param actionGroupDTO 操作组DTO列表
+     * @param tenantId       租户ID
+     * @return 是否更新成功
+     */
+    Boolean updateActionGroup(List<ActionGroupDTO> actionGroupDTO, String tenantId);
+
+    /**
+     * 新建关联操作
+     *
+     * @param resourceCreatorActionsDTO 资源创建者操作DTO
+     * @param tenantId                  租户ID
+     * @return 是否创建成功
+     */
+    Boolean createResourceCreatorAction(ResourceCreatorActionsDTO resourceCreatorActionsDTO, String tenantId);
+
+    /**
+     * 修改关联操作
+     *
+     * @param resourceCreatorActionsDTO 资源创建者操作DTO
+     * @param tenantId                  租户ID
+     * @return 是否更新成功
+     */
+    Boolean updateResourceCreatorAction(ResourceCreatorActionsDTO resourceCreatorActionsDTO, String tenantId);
 }

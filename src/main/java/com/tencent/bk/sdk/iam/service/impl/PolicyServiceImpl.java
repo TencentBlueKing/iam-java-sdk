@@ -37,6 +37,7 @@ import com.tencent.bk.sdk.iam.util.AuthCacheUtil;
 import com.tencent.bk.sdk.iam.util.AuthRequestContext;
 import com.tencent.bk.sdk.iam.util.JsonUtil;
 import com.tencent.bk.sdk.iam.util.ResponseUtil;
+import com.tencent.bk.sdk.iam.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -290,6 +291,42 @@ public class PolicyServiceImpl implements PolicyService {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    @Override
+    public ExpressionDTO getPolicyByAction(String username, ActionDTO action, List<ResourceDTO> resourceList, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getPolicyByAction(username, action, resourceList);
+    }
+
+    @Override
+    public List<ActionPolicyDTO> batchGetPolicyByActionList(String username, List<ActionDTO> actionList, List<ResourceDTO> resourceList, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.batchGetPolicyByActionList(username, actionList, resourceList);
+    }
+
+    @Override
+    public ExpressionWithResourceDTO batchGetPolicyAndAttribute(String username, ActionDTO actionDTO, ResourceDTO selfResource, List<ResourceDTO> dependencyResource, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.batchGetPolicyAndAttribute(username, actionDTO, selfResource, dependencyResource);
+    }
+
+    @Override
+    public List<UserGroupDTO> getUserGroup(String username, Boolean inherit, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getUserGroup(username, inherit);
+    }
+
+    @Override
+    public Boolean verifyPermissions(V2QueryPolicyDTO queryPolicyDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.verifyPermissions(queryPolicyDTO);
+    }
+
+    @Override
+    public Map<String, Boolean> batchVerifyPermissions(String username, List<ActionDTO> actionList, List<ResourceDTO> resourceList, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.batchVerifyPermissions(username, actionList, resourceList);
     }
 
     public String getPolicyByActionUrl() {

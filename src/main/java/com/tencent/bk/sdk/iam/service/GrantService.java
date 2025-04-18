@@ -14,11 +14,10 @@ package com.tencent.bk.sdk.iam.service;
 import com.tencent.bk.sdk.iam.dto.grant.BatchGrantPolicyDTO;
 import com.tencent.bk.sdk.iam.dto.grant.GrantPolicyDTO;
 import com.tencent.bk.sdk.iam.dto.grant.GrantResourceDTO;
-import com.tencent.bk.sdk.iam.service.decorator.IamService;
 
 import java.util.List;
 
-public interface GrantService extends IamService {
+public interface GrantService {
     /**
      * 给用户授予权限
      */
@@ -38,4 +37,24 @@ public interface GrantService extends IamService {
      * 批量收回用户权限
      */
     List<BatchGrantPolicyDTO> batchGrantPermission(String userId, List<String> actions, List<GrantResourceDTO> resources);
+
+    /**
+     * 给用户授予权限(带租户ID)
+     */
+    GrantPolicyDTO grantPermission(String userId, String action, List<GrantResourceDTO> resources, String tenantId);
+
+    /**
+     * 收回用户权限(带租户ID)
+     */
+    GrantPolicyDTO revokePermission(String userId, String action, List<GrantResourceDTO> resources, String tenantId);
+
+    /**
+     * 给用户批量授予权限(带租户ID)
+     */
+    List<BatchGrantPolicyDTO> batchRevokePermission(String userId, List<String> actions, List<GrantResourceDTO> resources, String tenantId);
+
+    /**
+     * 批量收回用户权限(带租户ID)
+     */
+    List<BatchGrantPolicyDTO> batchGrantPermission(String userId, List<String> actions, List<GrantResourceDTO> resources, String tenantId);
 }

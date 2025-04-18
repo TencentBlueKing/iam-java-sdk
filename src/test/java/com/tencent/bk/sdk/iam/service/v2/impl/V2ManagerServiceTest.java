@@ -83,8 +83,7 @@ import java.util.concurrent.TimeUnit;
 
 @Disabled
 public class V2ManagerServiceTest {
-    private IamConfiguration iamConfiguration = new IamConfiguration
-        ("", "", "", "", "");
+    private IamConfiguration iamConfiguration = new IamConfiguration("", "", "", "", "");
     private ApigwHttpClientServiceImpl apigwHttpClientService = new ApigwHttpClientServiceImpl(iamConfiguration);
     V2ManagerService v2ManagerService = new V2ManagerServiceImpl(apigwHttpClientService, iamConfiguration);
     ManagerService managerService = new ManagerServiceImpl(apigwHttpClientService, iamConfiguration);
@@ -174,11 +173,11 @@ public class V2ManagerServiceTest {
         ActionDTO actionDTO = new ActionDTO();
         actionDTO.setId("project_view");
         V2QueryPolicyDTO v2QueryPolicyDTO = V2QueryPolicyDTO
-            .builder()
-            .system("bk_ci_rbac")
-            .subject(SubjectDTO.builder().type("user").id("greysonfang").build())
-            .action(actionDTO)
-            .resources(Arrays.asList(V2ResourceNode.builder().system("bk_ci_rbac").type("project").id("fc-test").build())).build();
+                .builder()
+                .system("bk_ci_rbac")
+                .subject(SubjectDTO.builder().type("user").id("greysonfang").build())
+                .action(actionDTO)
+                .resources(Arrays.asList(V2ResourceNode.builder().system("bk_ci_rbac").type("project").id("fc-test").build())).build();
         Boolean aBoolean = v2PolicyService.verifyPermissions(v2QueryPolicyDTO);
         System.out.println(aBoolean);
     }
@@ -187,20 +186,20 @@ public class V2ManagerServiceTest {
     public void testCreateManagerV2() throws IOException {
         ManagerScopes department = new ManagerScopes("user", "greysonfang");
         AuthorizationScopes resources = AuthorizationScopes.builder()
-            .system("bk_ci")
-            .actions(Arrays.asList(new Action("project_view")))
-            .resources(
-                Arrays.asList(ManagerResources
-                    .builder()
-                    .system("bk_ci")
-                    .type("project")
-                    .paths(Arrays.asList(Arrays.asList(new ManagerPath("bk_ci", "project", "fc-test-rbac11", "fc-test-rbac11"))))
-                    .build()))
-            .build();
+                .system("bk_ci")
+                .actions(Arrays.asList(new Action("project_view")))
+                .resources(
+                        Arrays.asList(ManagerResources
+                                .builder()
+                                .system("bk_ci")
+                                .type("project")
+                                .paths(Arrays.asList(Arrays.asList(new ManagerPath("bk_ci", "project", "fc-test-rbac11", "fc-test-rbac11"))))
+                                .build()))
+                .build();
         CreateManagerDTO test1 = CreateManagerDTO.builder().system("bk_ci").name("fc-test-rbac1121").description("fc-test-rbac11")
-            .members(Arrays.asList("greysonfang"))
-            .authorization_scopes(Arrays.asList(resources))
-            .subject_scopes(Arrays.asList(department)).build();
+                .members(Arrays.asList("greysonfang"))
+                .authorization_scopes(Arrays.asList(resources))
+                .subject_scopes(Arrays.asList(department)).build();
         Integer manager = v2ManagerService.createManagerV2(test1);
         System.out.println(manager);
         // 3151
@@ -210,20 +209,20 @@ public class V2ManagerServiceTest {
     public void testUpdateManagerV2() throws IOException {
         ManagerScopes department = new ManagerScopes("*", "*");
         AuthorizationScopes resources = AuthorizationScopes.builder()
-            .system("bk_ci")
-            .actions(Arrays.asList(new Action("all_action")))
-            .resources(
-                Arrays.asList(ManagerResources
-                    .builder()
-                    .system("bk_ci")
-                    .type("project")
-                    .paths(Arrays.asList(Arrays.asList(new ManagerPath("bk_ci", "project", "fc-test", "test-greysonfang-v2"))))
-                    .build()))
-            .build();
+                .system("bk_ci")
+                .actions(Arrays.asList(new Action("all_action")))
+                .resources(
+                        Arrays.asList(ManagerResources
+                                .builder()
+                                .system("bk_ci")
+                                .type("project")
+                                .paths(Arrays.asList(Arrays.asList(new ManagerPath("bk_ci", "project", "fc-test", "test-greysonfang-v2"))))
+                                .build()))
+                .build();
         UpdateManagerDTO test1 = UpdateManagerDTO.builder().name("greysonfang-v212112").description("test")
-            .authorizationScopes(Arrays.asList(resources))
-            .members(Arrays.asList("greysonfang"))
-            .subjectScopes(Arrays.asList(department)).build();
+                .authorizationScopes(Arrays.asList(resources))
+                .members(Arrays.asList("greysonfang"))
+                .subjectScopes(Arrays.asList(department)).build();
         v2ManagerService.updateManagerV2("3156", test1);
         // System.out.println(manager);
         // 3151
@@ -332,20 +331,20 @@ public class V2ManagerServiceTest {
     public void testCreateSubsetManager() throws IOException {
         ManagerScopes department = new ManagerScopes("user", "greysonfang");
         AuthorizationScopes resources = AuthorizationScopes.builder()
-            .system("bk_ci")
-            .actions(Arrays.asList(new Action("all_action")))
-            .resources(
-                Arrays.asList(ManagerResources
-                    .builder()
-                    .system("bk_ci")
-                    .type("project")
-                    .paths(Arrays.asList(Arrays.asList(new ManagerPath("bk_ci", "project", "fc-test", "test-greysonfang-v2"))))
-                    .build()))
-            .build();
+                .system("bk_ci")
+                .actions(Arrays.asList(new Action("all_action")))
+                .resources(
+                        Arrays.asList(ManagerResources
+                                .builder()
+                                .system("bk_ci")
+                                .type("project")
+                                .paths(Arrays.asList(Arrays.asList(new ManagerPath("bk_ci", "project", "fc-test", "test-greysonfang-v2"))))
+                                .build()))
+                .build();
         CreateSubsetManagerDTO test1 = CreateSubsetManagerDTO.builder().name("greysonfang-v2-subset1").description("test")
-            .members(Arrays.asList("greysonfang"))
-            .authorizationScopes(Arrays.asList(resources))
-            .subjectScopes(Arrays.asList(department)).build();
+                .members(Arrays.asList("greysonfang"))
+                .authorizationScopes(Arrays.asList(resources))
+                .subjectScopes(Arrays.asList(department)).build();
         Integer subsetManager = v2ManagerService.createSubsetManager("3151", test1);
         System.out.println(subsetManager);
         // 3153
@@ -375,23 +374,23 @@ public class V2ManagerServiceTest {
     public void testCreateGradeManagerApplication() {
         ManagerScopes department = new ManagerScopes("user", "greysonfang");
         AuthorizationScopes resources = AuthorizationScopes.builder()
-            .system("bk_ci")
-            .actions(Arrays.asList(new Action("all_action")))
-            .resources(
-                Arrays.asList(ManagerResources
-                    .builder()
-                    .system("bk_ci")
-                    .type("project")
-                    .paths(Arrays.asList(Arrays.asList(new ManagerPath("bk_ci", "project", "fc-test", "test-greysonfang-v2"))))
-                    .build()))
-            .build();
+                .system("bk_ci")
+                .actions(Arrays.asList(new Action("all_action")))
+                .resources(
+                        Arrays.asList(ManagerResources
+                                .builder()
+                                .system("bk_ci")
+                                .type("project")
+                                .paths(Arrays.asList(Arrays.asList(new ManagerPath("bk_ci", "project", "fc-test", "test-greysonfang-v2"))))
+                                .build()))
+                .build();
         List<ItsmColumn> itsmColumns = Arrays.asList(
-            ItsmColumn.builder().key("projectName").name("项目名称").type("text").build(),
-            ItsmColumn.builder().key("projectId").name("项目ID").type("text").build(),
-            ItsmColumn.builder().key("desc").name("项目描述").type("text").build(),
-            ItsmColumn.builder().key("organization").name("所属组织").type("text").build(),
-            ItsmColumn.builder().key("authSecrecy").name("项目性质").type("text").build(),
-            ItsmColumn.builder().key("subjectScopes").name("最大可授权人员范围").type("text").width(100).build()
+                ItsmColumn.builder().key("projectName").name("项目名称").type("text").build(),
+                ItsmColumn.builder().key("projectId").name("项目ID").type("text").build(),
+                ItsmColumn.builder().key("desc").name("项目描述").type("text").build(),
+                ItsmColumn.builder().key("organization").name("所属组织").type("text").build(),
+                ItsmColumn.builder().key("authSecrecy").name("项目性质").type("text").build(),
+                ItsmColumn.builder().key("subjectScopes").name("最大可授权人员范围").type("text").width(100).build()
         );
         ItsmAttrs itsmAttrs = ItsmAttrs.builder().column(itsmColumns).build();
         ItsmScheme itsmScheme = ItsmScheme.builder().attrs(itsmAttrs).type("table").build();
@@ -408,15 +407,15 @@ public class V2ManagerServiceTest {
         ItsmContentDTO itsmContentDTO = ItsmContentDTO.builder().formData(Arrays.asList(itsmValue)).schemes(scheme).build();
 
         GradeManagerApplicationCreateDTO build = GradeManagerApplicationCreateDTO.builder().name("fc-test-rbac412126").description("fc-test-rbac121241")
-            .members(Arrays.asList("greysonfang"))
-            .authorizationScopes(Arrays.asList(resources))
-            .subjectScopes(Arrays.asList(department))
-            .applicant("greysonfang")
-            .reason("just test")
-            .callbackId("123")
-            .callbackUrl("xxx")
-            .content(itsmContentDTO)
-            .title("fc-test").build();
+                .members(Arrays.asList("greysonfang"))
+                .authorizationScopes(Arrays.asList(resources))
+                .subjectScopes(Arrays.asList(department))
+                .applicant("greysonfang")
+                .reason("just test")
+                .callbackId("123")
+                .callbackUrl("xxx")
+                .content(itsmContentDTO)
+                .title("fc-test").build();
         // GradeManagerApplicationResponse(id=604, sn=REQ20221122000028)
         GradeManagerApplicationResponse gradeManagerApplication = v2ManagerService.createGradeManagerApplication(build);
         System.out.println(gradeManagerApplication);
@@ -433,23 +432,23 @@ public class V2ManagerServiceTest {
     public void testUpdateGradeManagerApplication() {
         ManagerScopes department = new ManagerScopes("user", "greysonfang");
         AuthorizationScopes resources = AuthorizationScopes.builder()
-            .system("bk_ci")
-            .actions(Arrays.asList(new Action("all_action")))
-            .resources(
-                Arrays.asList(ManagerResources
-                    .builder()
-                    .system("bk_ci")
-                    .type("project")
-                    .paths(Arrays.asList(Arrays.asList(new ManagerPath("bk_ci", "project", "fc-test", "test-greysonfang-v1"))))
-                    .build()))
-            .build();
+                .system("bk_ci")
+                .actions(Arrays.asList(new Action("all_action")))
+                .resources(
+                        Arrays.asList(ManagerResources
+                                .builder()
+                                .system("bk_ci")
+                                .type("project")
+                                .paths(Arrays.asList(Arrays.asList(new ManagerPath("bk_ci", "project", "fc-test", "test-greysonfang-v1"))))
+                                .build()))
+                .build();
         List<ItsmColumn> itsmColumns = Arrays.asList(
-            ItsmColumn.builder().key("projectName").name("项目名称").type("text").build(),
-            ItsmColumn.builder().key("projectId").name("项目ID").type("text").build(),
-            ItsmColumn.builder().key("desc").name("项目描述").type("text").build(),
-            ItsmColumn.builder().key("organization").name("所属组织").type("text").build(),
-            ItsmColumn.builder().key("authSecrecy").name("项目性质").type("text").build(),
-            ItsmColumn.builder().key("subjectScopes").name("最大可授权人员范围").type("text").width(100).build()
+                ItsmColumn.builder().key("projectName").name("项目名称").type("text").build(),
+                ItsmColumn.builder().key("projectId").name("项目ID").type("text").build(),
+                ItsmColumn.builder().key("desc").name("项目描述").type("text").build(),
+                ItsmColumn.builder().key("organization").name("所属组织").type("text").build(),
+                ItsmColumn.builder().key("authSecrecy").name("项目性质").type("text").build(),
+                ItsmColumn.builder().key("subjectScopes").name("最大可授权人员范围").type("text").width(100).build()
         );
         ItsmAttrs itsmAttrs = ItsmAttrs.builder().column(itsmColumns).build();
         ItsmScheme itsmScheme = ItsmScheme.builder().attrs(itsmAttrs).type("table").build();
@@ -465,15 +464,15 @@ public class V2ManagerServiceTest {
         ItsmValue itsmValue = ItsmValue.builder().scheme("content_table").label("项目创建审批").value(Arrays.asList(value)).build();
         ItsmContentDTO itsmContentDTO = ItsmContentDTO.builder().formData(Arrays.asList(itsmValue)).schemes(scheme).build();
         GradeManagerApplicationUpdateDTO build = GradeManagerApplicationUpdateDTO.builder().name("test-134").description("123")
-            .members(Arrays.asList("greysonfang"))
-            .authorizationScopes(Arrays.asList(resources))
-            .subjectScopes(Arrays.asList(department))
-            .applicant("greysonfang")
-            .reason("just test")
-            .callbackId("1234")
-            .callbackUrl("xxx")
-            .content(itsmContentDTO)
-            .title("fc-test").build();
+                .members(Arrays.asList("greysonfang"))
+                .authorizationScopes(Arrays.asList(resources))
+                .subjectScopes(Arrays.asList(department))
+                .applicant("greysonfang")
+                .reason("just test")
+                .callbackId("1234")
+                .callbackUrl("xxx")
+                .content(itsmContentDTO)
+                .title("fc-test").build();
 
         GradeManagerApplicationResponse gradeManagerApplication = v2ManagerService.updateGradeManagerApplication("3153", build);
         System.out.println(gradeManagerApplication);
@@ -487,9 +486,9 @@ public class V2ManagerServiceTest {
     @Test
     public void testSearchGroup() throws IOException {
         SearchGroupDTO pipeline_edit = SearchGroupDTO.builder()
-            .actionId("pipeline_edit")
-            .resourceId("abc")
-            .build();
+                .actionId("pipeline_edit")
+                .resourceId("abc")
+                .build();
         String s = JsonUtil.toJson(pipeline_edit);
         System.out.println(JsonUtil.fromJson(s, new TypeReference<HashMap<String, String>>() {
         }));
@@ -511,20 +510,20 @@ public class V2ManagerServiceTest {
     public void testupdateSubsetManager() {
         ManagerScopes department = new ManagerScopes("user", "mingshewhe");
         AuthorizationScopes resources = AuthorizationScopes.builder()
-            .system("bk_ci_rbac")
-            .actions(Arrays.asList(new Action("project_view")))
-            .resources(
-                Arrays.asList(ManagerResources
-                    .builder()
-                    .system("bk_ci_rbac")
-                    .type("project")
-                    .paths(Arrays.asList(Arrays.asList(new ManagerPath("bk_ci_rbac", "project", "mht-rbac", "mht-rbac"))))
-                    .build()))
-            .build();
+                .system("bk_ci_rbac")
+                .actions(Arrays.asList(new Action("project_view")))
+                .resources(
+                        Arrays.asList(ManagerResources
+                                .builder()
+                                .system("bk_ci_rbac")
+                                .type("project")
+                                .paths(Arrays.asList(Arrays.asList(new ManagerPath("bk_ci_rbac", "project", "mht-rbac", "mht-rbac"))))
+                                .build()))
+                .build();
         UpdateSubsetManagerDTO test1 = UpdateSubsetManagerDTO.builder().name("greysonfang-v2-subset1").description("test")
-            .members(Arrays.asList("mingshewhe"))
-            .authorizationScopes(Arrays.asList(resources))
-            .subjectScopes(Arrays.asList(department)).build();
+                .members(Arrays.asList("mingshewhe"))
+                .authorizationScopes(Arrays.asList(resources))
+                .subjectScopes(Arrays.asList(department)).build();
         v2ManagerService.updateSubsetManager("3305", test1);
     }
 
@@ -537,7 +536,7 @@ public class V2ManagerServiceTest {
     public void testRenewalRoleGroupMemberApplication() {
         Long expiredTime = System.currentTimeMillis() / 1000 + TimeUnit.DAYS.toSeconds(370);
         GroupMemberRenewApplicationDTO greysonfang = GroupMemberRenewApplicationDTO.builder().applicant("greysonfang").reason("1").expiredAt(expiredTime)
-            .groupIds(Arrays.asList(11723)).build();
+                .groupIds(Arrays.asList(11723)).build();
         v2ManagerService.renewalRoleGroupMemberApplication(greysonfang);
     }
 
@@ -547,12 +546,12 @@ public class V2ManagerServiceTest {
         action.setId("pipeline_list");
 
         ResourceDTO resource = ResourceDTO.builder()
-            .type("pipeline")
-            .id("p-42f8638d709a4fc9b6e9292f1c232456")
-            .system(iamConfiguration.getSystemId())
-            .build();
+                .type("pipeline")
+                .id("p-42f8638d709a4fc9b6e9292f1c232456")
+                .system(iamConfiguration.getSystemId())
+                .build();
         Map<String, Boolean> result = policyService.batchVerifyPermissions(
-            "mingshewhe", Collections.singletonList(action), Collections.singletonList(resource)
+                "mingshewhe", Collections.singletonList(action), Collections.singletonList(resource)
         );
         System.out.println(result);
     }
@@ -563,12 +562,12 @@ public class V2ManagerServiceTest {
         action.setId("pipeline_list");
 
         ResourceDTO resource = ResourceDTO.builder()
-            .type("pipeline")
-            .id("p-42f8638d709a4fc9b6e9292f1c232456")
-            .system(iamConfiguration.getSystemId())
-            .build();
+                .type("pipeline")
+                .id("p-42f8638d709a4fc9b6e9292f1c232456")
+                .system(iamConfiguration.getSystemId())
+                .build();
         Map<String, Boolean> result = v2PolicyService.batchVerifyPermissions(
-            "mingshewhe", Collections.singletonList(action), Collections.singletonList(resource)
+                "mingshewhe", Collections.singletonList(action), Collections.singletonList(resource)
         );
         System.out.println(result);
     }
@@ -579,12 +578,12 @@ public class V2ManagerServiceTest {
         action.setId("pipeline_list");
 
         ResourceDTO resource = ResourceDTO.builder()
-            .type("pipeline")
-            .id("p-42f8638d709a4fc9b6e9292f1c232456")
-            .system(iamConfiguration.getSystemId())
-            .build();
+                .type("pipeline")
+                .id("p-42f8638d709a4fc9b6e9292f1c232456")
+                .system(iamConfiguration.getSystemId())
+                .build();
         List<ActionPolicyDTO> actionPolilcyDTOList = v2PolicyService.batchGetPolicyByActionList(
-            "mingshewhe", Collections.singletonList(action), Collections.singletonList(resource)
+                "mingshewhe", Collections.singletonList(action), Collections.singletonList(resource)
         );
         System.out.println(actionPolilcyDTOList);
     }
@@ -595,7 +594,7 @@ public class V2ManagerServiceTest {
         pageInfoDTO.setPageSize(10);
         pageInfoDTO.setPage(1);
         ResponseData<RoleGroupMemberInfo> roleGroupMemberInfoResponseData = v2ManagerService.listRoleGroupTemplates(
-            532267, pageInfoDTO
+                532267, pageInfoDTO
         );
         System.out.println(roleGroupMemberInfoResponseData);
     }

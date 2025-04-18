@@ -11,9 +11,7 @@
 
 package com.tencent.bk.sdk.iam.service;
 
-import com.tencent.bk.sdk.iam.service.decorator.IamService;
-
-public interface HttpClientService extends IamService {
+public interface HttpClientService {
 
     /**
      * 发起 HTTP GET 请求
@@ -44,7 +42,7 @@ public interface HttpClientService extends IamService {
     /**
      * 发起 HTTP PUT 请求
      *
-     * @param uri  请求路径
+     * @param uri 请求路径
      * @return 响应包体
      */
     String doHttpPut(String uri);

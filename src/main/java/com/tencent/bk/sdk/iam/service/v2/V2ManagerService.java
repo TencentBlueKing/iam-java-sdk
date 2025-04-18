@@ -40,14 +40,13 @@ import com.tencent.bk.sdk.iam.dto.response.GradeManagerApplicationResponse;
 import com.tencent.bk.sdk.iam.dto.response.GroupPermissionDetailResponseDTO;
 import com.tencent.bk.sdk.iam.dto.response.ManagerDetailResponse;
 import com.tencent.bk.sdk.iam.dto.response.MemberGroupDetailsResponse;
-import com.tencent.bk.sdk.iam.service.decorator.IamService;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 // v2类接口使用于RBAC权限;对于ABAC权限，使用v1接口
-public interface V2ManagerService extends IamService {
+public interface V2ManagerService{
     //----------------二级管理员相关接口----------------
 
     /**
@@ -222,7 +221,7 @@ public interface V2ManagerService extends IamService {
     /**
      * 查询用户组权限详情,需传递systemId
      */
-    public List<GroupPermissionDetailResponseDTO> getGroupPermissionDetail(Integer groupId, String systemId);
+    public List<GroupPermissionDetailResponseDTO> getGroupPermissionDetailWithSystemId(Integer groupId, String systemId);
 
     /**
      * 校验用户是否某个用户组的有效成员
@@ -235,4 +234,191 @@ public interface V2ManagerService extends IamService {
      * 校验部门是否某个用户组的有效成员
      */
     public Map<Integer, GroupMemberVerifyInfo> verifyGroupValidDepartment(String departmentId, String groupIds);
+
+    /// /////////////////////////////////
+    /**
+     * 创建二级管理员
+     */
+    public Integer createSubsetManager(String gradeManagerId, CreateSubsetManagerDTO createSubsetManagerDTO, String tenantId) throws IOException;
+
+    /**
+     * 二级管理员下批量创建用户组
+     */
+    public Integer batchCreateSubsetRoleGroup(Integer subsetManagerId, ManagerRoleGroupDTO managerRoleGroupDTO, String tenantId);
+
+    /**
+     * 查询二级管理员下用户组列表
+     */
+    public V2ManagerRoleGroupVO getSubsetManagerRoleGroup(Integer subsetManagerId, V2PageInfoDTO pageInfoDTO, String tenantId);
+
+    /**
+     * 查询二级管理员详情
+     *
+     * @param subsetManagerId 二级管理员ID
+     */
+    public ManagerDetailResponse getSubsetManagerDetail(String subsetManagerId, String tenantId);
+
+    /**
+     * 更新二级管理员
+     *
+     * @param subsetManagerId        二级管理员ID
+     * @param updateSubsetManagerDTO
+     */
+    public void updateSubsetManager(String subsetManagerId, UpdateSubsetManagerDTO updateSubsetManagerDTO, String tenantId);
+
+    /**
+     * 删除二级管理员
+     *
+     * @param subsetManagerId 二级管理员ID
+     */
+    void deleteSubsetManager(String subsetManagerId, String tenantId);
+
+    //----------------分级管理员相关接口----------------
+
+    /**
+     * 查询分级管理员详情
+     */
+    public ManagerDetailResponse getGradeManagerDetail(String gradeManagerId, String tenantId);
+
+    /**
+     * v2版本
+     * 查询分级管理员下用户组列表
+     */
+    public V2ManagerRoleGroupVO getGradeManagerRoleGroupV2(String gradeManagerId, SearchGroupDTO searchGroupDTO, V2PageInfoDTO pageInfoDTO, String tenantId);
+
+    /**
+     * 查询分级管理员下人员模板列表
+     */
+    public SubjectTemplateVO getGradeManagerRoleTemplate(String gradeManagerId, SearchTemplatesDTO searchTemplatesDTO, V2PageInfoDTO pageInfoDTO, String tenantId);
+
+    /**
+     * 创建分级管理员申请
+     */
+    public GradeManagerApplicationResponse createGradeManagerApplication(GradeManagerApplicationCreateDTO gradeManagerApplicationCreateDTO, String tenantId);
+
+    /**
+     * 修改分级管理员申请
+     */
+    public GradeManagerApplicationResponse updateGradeManagerApplication(String gradeManagerId,
+                                                                         GradeManagerApplicationUpdateDTO gradeManagerApplicationUpdateDTO, String tenantId);
+
+    /**
+     * 直接创建分级管理员
+     **/
+    public Integer createManagerV2(CreateManagerDTO createManagerDTO, String tenantId) throws IOException;
+
+    /**
+     * 直接更新分级管理员
+     *
+     * @return
+     */
+    public void updateManagerV2(String gradeManagerId, UpdateManagerDTO updateManagerDTO, String tenantId);
+
+    /**
+     * 删除分级管理员
+     *
+     * @param gradeManagerId 分级管理员ID
+     */
+    void deleteManagerV2(String gradeManagerId, String tenantId);
+
+    //----------------审批单相关接口----------------
+
+    /**
+     * 处理申请单审批状态通知回调
+     */
+    public CallbackApplicationResponese handleCallbackApplication(String callbackId, CallbackApplicationDTO callbackApplicationDTO, String tenantId);
+
+    /**
+     * 取消申请单审批
+     */
+    public Boolean cancelCallbackApplication(String callbackId, String tenantId);
+
+    //----------------用户组相关接口-----------------
+
+    /**
+     * 创建用户组申请单据
+     */
+    public ApplicationVO createRoleGroupApplicationV2(ApplicationDTO applicationDTO, String tenantId);
+
+    /**
+     * 批量创建用户组
+     */
+    public Integer batchCreateRoleGroupV2(Integer gradeManagerId, ManagerRoleGroupDTO managerRoleGroupDTO, String tenantId);
+
+    /**
+     * 更新用户组
+     */
+    public void updateRoleGroupV2(Integer groupId, ManagerRoleGroup managerRoleGroup, String tenantId);
+
+    /**
+     * 删除用户组
+     */
+    public void deleteRoleGroupV2(Integer groupId, String tenantId);
+
+    /**
+     * 用户组授权
+     */
+    public void grantRoleGroupV2(Integer groupId, AuthorizationScopes authorizationScopes, String tenantId);
+
+    /**
+     * 用户组添加成员
+     */
+    public void createRoleGroupMemberV2(Integer groupId, ManagerMemberGroupDTO managerMemberGroupDTO, String tenantId);
+
+    /**
+     * 用户组删除成员
+     */
+    public void deleteRoleGroupMemberV2(Integer groupId, String type, String members, String tenantId);
+
+    /**
+     * 用户组成员列表
+     */
+    public ManagerGroupMemberVo getRoleGroupMemberV2(Integer groupId, V2PageInfoDTO pageInfoDTO, String tenantId);
+
+    /**
+     * 用户组下模板列表
+     */
+    public ResponseData<RoleGroupMemberInfo> listRoleGroupTemplates(Integer groupId, V2PageInfoDTO pageInfoDTO, String tenantId);
+
+    /**
+     * 用户组成员续期(不需要审批版本)
+     */
+    public void renewalRoleGroupMemberV2(Integer groupId, ManagerMemberGroupDTO managerMemberGroupDTO, String tenantId);
+
+    /**
+     * 用户组成员续期(需要审批版本)
+     */
+    public void renewalRoleGroupMemberApplication(GroupMemberRenewApplicationDTO groupMemberRenewApplicationDTO, String tenantId);
+
+    /**
+     * 批量查询用户/组织/人员模板加入的用户组详情
+     */
+    public List<MemberGroupDetailsResponse> listMemberGroupsDetails(String memberType, String memberId, String groupIds, String tenantId);
+
+    /**
+     * 查询用户组有权限的Action列表
+     */
+    public List<GroupAction> getRoleGroupActionV2(Integer groupId, String tenantId);
+
+    /**
+     * 查询用户组权限详情
+     */
+    public List<GroupPermissionDetailResponseDTO> getGroupPermissionDetail(Integer groupId, String tenantId);
+
+    /**
+     * 查询用户组权限详情,需传递systemId
+     */
+    public List<GroupPermissionDetailResponseDTO> getGroupPermissionDetailWithSystemId(Integer groupId, String systemId, String tenantId);
+
+    /**
+     * 校验用户是否某个用户组的有效成员
+     *
+     * @param groupIds 1,2,3,4  多个用“,”分割
+     */
+    public Map<Integer, GroupMemberVerifyInfo> verifyGroupValidMember(String userId, String groupIds, String tenantId);
+
+    /**
+     * 校验部门是否某个用户组的有效成员
+     */
+    public Map<Integer, GroupMemberVerifyInfo> verifyGroupValidDepartment(String departmentId, String groupIds, String tenantId);
 }

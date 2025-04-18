@@ -34,9 +34,11 @@ import com.tencent.bk.sdk.iam.service.ManagerService;
 import com.tencent.bk.sdk.iam.util.AuthRequestContext;
 import com.tencent.bk.sdk.iam.util.JsonUtil;
 import com.tencent.bk.sdk.iam.util.ResponseUtil;
+import com.tencent.bk.sdk.iam.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -466,6 +468,102 @@ public class ManagerServiceImpl implements ManagerService {
             throw new RuntimeException(e);
         }
         return "";
+    }
+
+    @Override
+    public Integer createManager(CreateManagerDTO createManagerDTO, String tenantId) throws IOException {
+        ThreadUtil.setTenantId(tenantId);
+        return this.createManager(createManagerDTO);
+    }
+
+    @Override
+    public ManagerRoleGroupVO getGradeManagerRoleGroup(Integer projectId, PageInfoDTO pageInfoDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getGradeManagerRoleGroup(projectId, pageInfoDTO);
+    }
+
+    @Override
+    public Integer batchCreateRoleGroup(Integer projectId, ManagerRoleGroupDTO managerRoleGroupDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.batchCreateRoleGroup(projectId, managerRoleGroupDTO);
+    }
+
+    @Override
+    public void updateRoleGroup(Integer roleId, ManagerRoleGroup managerRoleGroup, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.updateRoleGroup(roleId, managerRoleGroup);
+    }
+
+    @Override
+    public void deleteRoleGroup(Integer roleId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.deleteRoleGroup(roleId);
+    }
+
+    @Override
+    public List<String> getGradeManagerRoleMember(Integer projectId, PageInfoDTO pageInfoDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getGradeManagerRoleMember(projectId, pageInfoDTO);
+    }
+
+    @Override
+    public void batchCreateGradeManagerRoleMember(ManagerRoleMemberDTO members, Integer projectId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.batchCreateGradeManagerRoleMember(members, projectId);
+    }
+
+    @Override
+    public void deleteGradeManagerRoleMember(String members, Integer projectId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.deleteGradeManagerRoleMember(members, projectId);
+    }
+
+    @Override
+    public ManagerGroupMemberVo getRoleGroupMember(Integer roleId, PageInfoDTO pageInfoDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getRoleGroupMember(roleId, pageInfoDTO);
+    }
+
+    @Override
+    public void createRoleGroupMember(Integer roleId, ManagerMemberGroupDTO managerMemberGroupDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.createRoleGroupMember(roleId, managerMemberGroupDTO);
+    }
+
+    @Override
+    public void deleteRoleGroupMember(Integer roleId, String type, String members, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.deleteRoleGroupMember(roleId, type, members);
+    }
+
+    @Override
+    public List<CreateVo> getUserRole(String userId, PageInfoDTO pageInfoDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getUserRole(userId, pageInfoDTO);
+    }
+
+    @Override
+    public Boolean createRolePermission(Integer roleId, AuthorizationScopes permission, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.createRolePermission(roleId, permission);
+    }
+
+    @Override
+    public List<ManagerRoleGroupInfo> getUserGroup(Integer projectId, String userId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getUserGroup(projectId, userId);
+    }
+
+    @Override
+    public void createResourceRelation(CreateRelationDTO createRelationDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.createResourceRelation(createRelationDTO);
+    }
+
+    @Override
+    public String getPermissionUrl(PermissionUrlDTO permissionUrlDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getPermissionUrl(permissionUrlDTO);
     }
 
     private String buildURLPage(String iamURL, PageInfoDTO pageInfoDTO) {

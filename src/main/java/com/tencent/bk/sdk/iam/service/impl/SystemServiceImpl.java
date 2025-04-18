@@ -22,6 +22,7 @@ import com.tencent.bk.sdk.iam.service.SystemService;
 import com.tencent.bk.sdk.iam.util.AuthRequestContext;
 import com.tencent.bk.sdk.iam.util.JsonUtil;
 import com.tencent.bk.sdk.iam.util.ResponseUtil;
+import com.tencent.bk.sdk.iam.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -118,5 +119,23 @@ public class SystemServiceImpl implements SystemService {
             throw new RuntimeException(e);
         }
         return true;
+    }
+
+    @Override
+    public Boolean systemCheck(String systemId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.systemCheck(systemId);
+    }
+
+    @Override
+    public SystemFieldDTO getSystemFieldsInfo(String systemId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getSystemFieldsInfo(systemId);
+    }
+
+    @Override
+    public Boolean createSystem(SystemDTO systemInfo, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.createSystem(systemInfo);
     }
 }

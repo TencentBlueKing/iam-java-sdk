@@ -13,13 +13,18 @@ package com.tencent.bk.sdk.iam.service;
 
 import com.tencent.bk.sdk.iam.dto.system.SystemDTO;
 import com.tencent.bk.sdk.iam.dto.system.SystemFieldDTO;
-import com.tencent.bk.sdk.iam.service.decorator.IamService;
 
-public interface SystemService extends IamService {
+public interface SystemService {
 
     Boolean systemCheck(String systemId);
 
     SystemFieldDTO getSystemFieldsInfo(String systemId);
 
     Boolean createSystem(SystemDTO systemInfo);
+
+    Boolean systemCheck(String systemId, String tenantId);
+
+    SystemFieldDTO getSystemFieldsInfo(String systemId, String tenantId);
+
+    Boolean createSystem(SystemDTO systemInfo, String tenantId);
 }

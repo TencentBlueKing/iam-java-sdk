@@ -22,6 +22,7 @@ import com.tencent.bk.sdk.iam.service.v2.V2GrantService;
 import com.tencent.bk.sdk.iam.util.AuthRequestContext;
 import com.tencent.bk.sdk.iam.util.JsonUtil;
 import com.tencent.bk.sdk.iam.util.ResponseUtil;
+import com.tencent.bk.sdk.iam.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -81,5 +82,17 @@ public class V2GrantServiceImpl implements V2GrantService {
             log.error("revoke role group policies failed", e);
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void v2GrantRoleGroup(Integer groupId, ManagerRoleGroupGrantDTO managerRoleGroupGrantDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.v2GrantRoleGroup(groupId, managerRoleGroupGrantDTO);
+    }
+
+    @Override
+    public void revokeRoleGroupPolicies(Integer groupId, ManagerRoleGroupGrantDTO managerRoleGroupGrantDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.revokeRoleGroupPolicies(groupId, managerRoleGroupGrantDTO);
     }
 }

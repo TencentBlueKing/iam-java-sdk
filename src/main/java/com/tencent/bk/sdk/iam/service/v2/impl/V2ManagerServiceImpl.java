@@ -54,6 +54,7 @@ import com.tencent.bk.sdk.iam.util.AuthRequestContext;
 import com.tencent.bk.sdk.iam.util.HttpUtils;
 import com.tencent.bk.sdk.iam.util.JsonUtil;
 import com.tencent.bk.sdk.iam.util.ResponseUtil;
+import com.tencent.bk.sdk.iam.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -252,9 +253,9 @@ public class V2ManagerServiceImpl implements V2ManagerService {
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("list role group templates response|{}", responseStr);
                 ResponseDTO<ResponseData<RoleGroupMemberInfo>> responseInfo = JsonUtil.fromJson(
-                    responseStr,
-                    new TypeReference<ResponseDTO<ResponseData<RoleGroupMemberInfo>>>() {
-                    });
+                        responseStr,
+                        new TypeReference<ResponseDTO<ResponseData<RoleGroupMemberInfo>>>() {
+                        });
                 if (responseInfo != null) {
                     ResponseUtil.checkResponse(responseInfo);
                     return responseInfo.getData();
@@ -323,17 +324,17 @@ public class V2ManagerServiceImpl implements V2ManagerService {
         try {
             AuthRequestContext.setRequestName("V2_MEMBER_GROUPS_DETAILS_LIST");
             String url = String.format(V2IamUri.V2_MEMBER_GROUP_DETAILS_GET,
-                iamConfiguration.getSystemId(),
-                memberType,
-                memberId,
-                groupIds
+                    iamConfiguration.getSystemId(),
+                    memberType,
+                    memberId,
+                    groupIds
             );
             String responseStr = apigwHttpClientService.doHttpGet(url);
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("list member groups details response|{}", responseStr);
                 ResponseDTO<List<MemberGroupDetailsResponse>> responseInfo =
-                    JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<List<MemberGroupDetailsResponse>>>() {
-                    });
+                        JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<List<MemberGroupDetailsResponse>>>() {
+                        });
                 if (responseInfo != null) {
                     ResponseUtil.checkResponse(responseInfo);
                     return responseInfo.getData();
@@ -382,7 +383,7 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     }
 
     @Override
-    public List<GroupPermissionDetailResponseDTO> getGroupPermissionDetail(Integer groupId, String systemId) {
+    public List<GroupPermissionDetailResponseDTO> getGroupPermissionDetailWithSystemId(Integer groupId, String systemId) {
         AuthRequestContext.setRequestName("V2_MANAGER_ROLE_GROUP_PERMISSION_DETAIL_GET");
         String url = String.format(V2IamUri.V2_MANAGER_ROLE_GROUP_PERMISSION_DETAIL_GET, systemId, groupId);
         try {
@@ -416,9 +417,9 @@ public class V2ManagerServiceImpl implements V2ManagerService {
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("verify group valid member response|{}", responseStr);
                 ResponseDTO<Map<Integer, GroupMemberVerifyInfo>> responseInfo =
-                    JsonUtil.fromJson(responseStr,
-                        new TypeReference<ResponseDTO<Map<Integer, GroupMemberVerifyInfo>>>() {
-                        });
+                        JsonUtil.fromJson(responseStr,
+                                new TypeReference<ResponseDTO<Map<Integer, GroupMemberVerifyInfo>>>() {
+                                });
                 if (responseInfo != null) {
                     ResponseUtil.checkResponse(responseInfo);
                     return responseInfo.getData();
@@ -444,9 +445,9 @@ public class V2ManagerServiceImpl implements V2ManagerService {
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("verify group valid department response|{}", responseStr);
                 ResponseDTO<Map<Integer, GroupMemberVerifyInfo>> responseInfo =
-                    JsonUtil.fromJson(responseStr,
-                        new TypeReference<ResponseDTO<Map<Integer, GroupMemberVerifyInfo>>>() {
-                        });
+                        JsonUtil.fromJson(responseStr,
+                                new TypeReference<ResponseDTO<Map<Integer, GroupMemberVerifyInfo>>>() {
+                                });
                 if (responseInfo != null) {
                     ResponseUtil.checkResponse(responseInfo);
                     return responseInfo.getData();
@@ -461,6 +462,204 @@ public class V2ManagerServiceImpl implements V2ManagerService {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    @Override
+    public Integer createSubsetManager(String gradeManagerId, CreateSubsetManagerDTO createSubsetManagerDTO, String tenantId) throws IOException {
+        ThreadUtil.setTenantId(tenantId);
+        return this.createSubsetManager(gradeManagerId, createSubsetManagerDTO);
+    }
+
+    @Override
+    public Integer batchCreateSubsetRoleGroup(Integer subsetManagerId, ManagerRoleGroupDTO managerRoleGroupDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.batchCreateSubsetRoleGroup(subsetManagerId, managerRoleGroupDTO);
+    }
+
+    @Override
+    public V2ManagerRoleGroupVO getSubsetManagerRoleGroup(Integer subsetManagerId, V2PageInfoDTO pageInfoDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getSubsetManagerRoleGroup(subsetManagerId, pageInfoDTO);
+    }
+
+    @Override
+    public ManagerDetailResponse getSubsetManagerDetail(String subsetManagerId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getSubsetManagerDetail(subsetManagerId);
+    }
+
+    @Override
+    public void updateSubsetManager(String subsetManagerId, UpdateSubsetManagerDTO updateSubsetManagerDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.updateSubsetManager(subsetManagerId, updateSubsetManagerDTO);
+    }
+
+    @Override
+    public void deleteSubsetManager(String subsetManagerId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.deleteSubsetManager(subsetManagerId);
+    }
+
+    @Override
+    public ManagerDetailResponse getGradeManagerDetail(String gradeManagerId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getGradeManagerDetail(gradeManagerId);
+    }
+
+    @Override
+    public V2ManagerRoleGroupVO getGradeManagerRoleGroupV2(String gradeManagerId, SearchGroupDTO searchGroupDTO, V2PageInfoDTO pageInfoDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getGradeManagerRoleGroupV2(gradeManagerId, searchGroupDTO, pageInfoDTO);
+    }
+
+    @Override
+    public SubjectTemplateVO getGradeManagerRoleTemplate(String gradeManagerId, SearchTemplatesDTO searchTemplatesDTO, V2PageInfoDTO pageInfoDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getGradeManagerRoleTemplate(gradeManagerId, searchTemplatesDTO, pageInfoDTO);
+    }
+
+    @Override
+    public GradeManagerApplicationResponse createGradeManagerApplication(GradeManagerApplicationCreateDTO gradeManagerApplicationCreateDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.createGradeManagerApplication(gradeManagerApplicationCreateDTO);
+    }
+
+    @Override
+    public GradeManagerApplicationResponse updateGradeManagerApplication(String gradeManagerId, GradeManagerApplicationUpdateDTO gradeManagerApplicationUpdateDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.updateGradeManagerApplication(gradeManagerId, gradeManagerApplicationUpdateDTO);
+    }
+
+    @Override
+    public Integer createManagerV2(CreateManagerDTO createManagerDTO, String tenantId) throws IOException {
+        ThreadUtil.setTenantId(tenantId);
+        return this.createManagerV2(createManagerDTO);
+    }
+
+    @Override
+    public void updateManagerV2(String gradeManagerId, UpdateManagerDTO updateManagerDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.updateManagerV2(gradeManagerId, updateManagerDTO);
+    }
+
+    @Override
+    public void deleteManagerV2(String gradeManagerId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.deleteManagerV2(gradeManagerId);
+    }
+
+    @Override
+    public CallbackApplicationResponese handleCallbackApplication(String callbackId, CallbackApplicationDTO callbackApplicationDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.handleCallbackApplication(callbackId, callbackApplicationDTO);
+    }
+
+    @Override
+    public Boolean cancelCallbackApplication(String callbackId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.cancelCallbackApplication(callbackId);
+    }
+
+    @Override
+    public ApplicationVO createRoleGroupApplicationV2(ApplicationDTO applicationDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.createRoleGroupApplicationV2(applicationDTO);
+    }
+
+    @Override
+    public Integer batchCreateRoleGroupV2(Integer gradeManagerId, ManagerRoleGroupDTO managerRoleGroupDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.batchCreateRoleGroupV2(gradeManagerId, managerRoleGroupDTO);
+    }
+
+    @Override
+    public void updateRoleGroupV2(Integer groupId, ManagerRoleGroup managerRoleGroup, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.updateRoleGroupV2(groupId, managerRoleGroup);
+    }
+
+    @Override
+    public void deleteRoleGroupV2(Integer groupId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.deleteRoleGroupV2(groupId);
+    }
+
+    @Override
+    public void grantRoleGroupV2(Integer groupId, AuthorizationScopes authorizationScopes, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.grantRoleGroupV2(groupId, authorizationScopes);
+    }
+
+    @Override
+    public void createRoleGroupMemberV2(Integer groupId, ManagerMemberGroupDTO managerMemberGroupDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.createRoleGroupMemberV2(groupId, managerMemberGroupDTO);
+    }
+
+    @Override
+    public void deleteRoleGroupMemberV2(Integer groupId, String type, String members, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.deleteRoleGroupMemberV2(groupId, type, members);
+    }
+
+    @Override
+    public ManagerGroupMemberVo getRoleGroupMemberV2(Integer groupId, V2PageInfoDTO pageInfoDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getRoleGroupMemberV2(groupId, pageInfoDTO);
+    }
+
+    @Override
+    public ResponseData<RoleGroupMemberInfo> listRoleGroupTemplates(Integer groupId, V2PageInfoDTO pageInfoDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.listRoleGroupTemplates(groupId, pageInfoDTO);
+    }
+
+    @Override
+    public void renewalRoleGroupMemberV2(Integer groupId, ManagerMemberGroupDTO managerMemberGroupDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.renewalRoleGroupMemberV2(groupId, managerMemberGroupDTO);
+    }
+
+    @Override
+    public void renewalRoleGroupMemberApplication(GroupMemberRenewApplicationDTO groupMemberRenewApplicationDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        this.renewalRoleGroupMemberApplication(groupMemberRenewApplicationDTO);
+    }
+
+    @Override
+    public List<MemberGroupDetailsResponse> listMemberGroupsDetails(String memberType, String memberId, String groupIds, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.listMemberGroupsDetails(memberType, memberId, groupIds);
+    }
+
+    @Override
+    public List<GroupAction> getRoleGroupActionV2(Integer groupId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getRoleGroupActionV2(groupId);
+    }
+
+    @Override
+    public List<GroupPermissionDetailResponseDTO> getGroupPermissionDetail(Integer groupId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getGroupPermissionDetail(groupId);
+    }
+
+    @Override
+    public List<GroupPermissionDetailResponseDTO> getGroupPermissionDetailWithSystemId(Integer groupId, String systemId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getGroupPermissionDetailWithSystemId(groupId, systemId);
+    }
+
+    @Override
+    public Map<Integer, GroupMemberVerifyInfo> verifyGroupValidMember(String userId, String groupIds, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.verifyGroupValidMember(userId, groupIds);
+    }
+
+    @Override
+    public Map<Integer, GroupMemberVerifyInfo> verifyGroupValidDepartment(String departmentId, String groupIds, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.verifyGroupValidDepartment(departmentId, groupIds);
     }
 
     @Override
@@ -520,13 +719,13 @@ public class V2ManagerServiceImpl implements V2ManagerService {
         try {
             AuthRequestContext.setRequestName("V2_SUBSET_GRADE_MANAGER_GROUP_GET");
             String responseStr = apigwHttpClientService.doHttpGet(v2BuildURLPage(
-                String.format(V2IamUri.V2_SUBSET_GRADE_MANAGER_GROUP_GET, iamConfiguration.getSystemId(),
-                    subsetManagerId.toString()), pageInfoDTO));
+                    String.format(V2IamUri.V2_SUBSET_GRADE_MANAGER_GROUP_GET, iamConfiguration.getSystemId(),
+                            subsetManagerId.toString()), pageInfoDTO));
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("get subeset manager role group response|{}", responseStr);
                 ResponseDTO<V2ManagerRoleGroupVO> responseInfo =
-                    JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<V2ManagerRoleGroupVO>>() {
-                    });
+                        JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<V2ManagerRoleGroupVO>>() {
+                        });
                 if (responseInfo != null) {
                     ResponseUtil.checkResponse(responseInfo);
                     return responseInfo.getData();
@@ -548,12 +747,12 @@ public class V2ManagerServiceImpl implements V2ManagerService {
         try {
             AuthRequestContext.setRequestName("V2_MANAGER_ROLE_DETAIL_GET");
             String responseStr = apigwHttpClientService.doHttpGet(
-                String.format(V2IamUri.V2_MANAGER_ROLE_DETAIL_GET, iamConfiguration.getSystemId(), gradeManagerId));
+                    String.format(V2IamUri.V2_MANAGER_ROLE_DETAIL_GET, iamConfiguration.getSystemId(), gradeManagerId));
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("get subeset manager role group response|{}", responseStr);
                 ResponseDTO<ManagerDetailResponse> responseInfo =
-                    JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<ManagerDetailResponse>>() {
-                    });
+                        JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<ManagerDetailResponse>>() {
+                        });
                 if (responseInfo != null) {
                     ResponseUtil.checkResponse(responseInfo);
                     return responseInfo.getData();
@@ -584,8 +783,8 @@ public class V2ManagerServiceImpl implements V2ManagerService {
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("get subeset manager role group response|{}", responseStr);
                 ResponseDTO<V2ManagerRoleGroupVO> responseInfo =
-                    JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<V2ManagerRoleGroupVO>>() {
-                    });
+                        JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<V2ManagerRoleGroupVO>>() {
+                        });
                 if (responseInfo != null) {
                     ResponseUtil.checkResponse(responseInfo);
                     return responseInfo.getData();
@@ -616,8 +815,8 @@ public class V2ManagerServiceImpl implements V2ManagerService {
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("get grade manager role template response|{}", responseStr);
                 ResponseDTO<SubjectTemplateVO> responseInfo =
-                    JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<SubjectTemplateVO>>() {
-                    });
+                        JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<SubjectTemplateVO>>() {
+                        });
                 if (responseInfo != null) {
                     ResponseUtil.checkResponse(responseInfo);
                     return responseInfo.getData();
@@ -769,8 +968,8 @@ public class V2ManagerServiceImpl implements V2ManagerService {
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("handle callback application response|{}", responseStr);
                 ResponseDTO<CallbackApplicationResponese> responseInfo =
-                    JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<CallbackApplicationResponese>>() {
-                    });
+                        JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<CallbackApplicationResponese>>() {
+                        });
                 if (responseInfo != null) {
                     ResponseUtil.checkResponse(responseInfo);
                     return responseInfo.getData();
@@ -844,12 +1043,12 @@ public class V2ManagerServiceImpl implements V2ManagerService {
         try {
             AuthRequestContext.setRequestName("V2_SUBSET_GRADE_MANAGER_DETAIL_GET");
             String responseStr = apigwHttpClientService.doHttpGet(
-                String.format(V2IamUri.V2_SUBSET_GRADE_MANAGER_DETAIL_GET, iamConfiguration.getSystemId(), subsetManagerId));
+                    String.format(V2IamUri.V2_SUBSET_GRADE_MANAGER_DETAIL_GET, iamConfiguration.getSystemId(), subsetManagerId));
             if (StringUtils.isNotBlank(responseStr)) {
                 log.debug("get subeset manager detail response|{}", responseStr);
                 ResponseDTO<ManagerDetailResponse> responseInfo =
-                    JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<ManagerDetailResponse>>() {
-                    });
+                        JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<ManagerDetailResponse>>() {
+                        });
                 if (responseInfo != null) {
                     ResponseUtil.checkResponse(responseInfo);
                     return responseInfo.getData();
