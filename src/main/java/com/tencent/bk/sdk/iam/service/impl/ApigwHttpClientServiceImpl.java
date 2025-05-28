@@ -146,6 +146,7 @@ public class ApigwHttpClientServiceImpl implements HttpClientService {
         } finally {
             HttpClientUtils.closeQuietly(response);
             AuthRequestContext.remove();
+            ThreadUtil.clearTenantId();
         }
     }
 

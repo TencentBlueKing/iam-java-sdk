@@ -29,7 +29,7 @@ ext {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
     set('jacksonVersion', "2.9.10")
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
-    set('lombokVersion', '1.18.36')
+    set('lombokVersion', '1.18.38')
     set("junitVersion", "5.4.2")
 
     String iamVersion = (System.getProperty("iamVersion") ?: "2.0.1")
