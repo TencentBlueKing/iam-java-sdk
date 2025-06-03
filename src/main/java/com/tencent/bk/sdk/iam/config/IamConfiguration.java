@@ -34,5 +34,6 @@ public class IamConfiguration {
     @NonNull
     private String apigwBaseUrl;
 
-    private Boolean enableMultiTenantMode = false;
+    @NonNull
+    private Boolean enableMultiTenantMode;
 }
