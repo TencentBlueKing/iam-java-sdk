@@ -43,7 +43,7 @@ jobs:
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
       - name: Gradle Build
         env:
-          build_mavenRepoDeployUrl: "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+          build_mavenRepoDeployUrl: "https://ossrh-staging-api.central.sonatype.com/service/local/"
           build_mavenRepoUsername: ${{ secrets.SONATYPE_USERNAME }}
           build_mavenRepoPassword: ${{ secrets.SONATYPE_PASSWORD }}
         run: |
