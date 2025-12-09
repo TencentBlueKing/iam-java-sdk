@@ -52,7 +52,7 @@ jobs:
           echo "GITHUB_REF=${GITHUB_REF}"
           chmod +x ./gradlew
           # 使用 publishToSonatype 统一发布（快照版会自动发布到 snapshotRepositoryUrl）
-          ./gradlew clean publishToSonatype -Dsnapshot=true \
+          ./gradlew --stacktrace clean publishToSonatype -Dsnapshot=true \
           -Psigning.keyId=${{ secrets.SIGNING_KEY_ID }} \
           -Psigning.password='${{ secrets.SIGNING_PASSWORD }}' \
           -Psigning.secretKeyRingFile=${{ github.workspace }}/secretKeyRingFile.gpg
