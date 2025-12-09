@@ -51,4 +51,8 @@ public class UpdateManagerDTO {
      */
     @JsonProperty("group_name")
     private String groupName;
+    /**
+     * 是否禁用--禁用后，不再发起续期通知
+     */
+    Boolean enabled;
 }
