@@ -29,3 +29,7 @@
 ## IAM v2.0.0
 
 - [新增] 支持JDK17
+
+## IAM v2.0.1
+
+- [新增] feat：支持禁用分级管理员 #112 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/112)
