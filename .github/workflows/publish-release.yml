@@ -51,10 +51,13 @@ jobs:
           iamVersion=${GITHUB_REF##*/v}
           echo "iamVersion=${iamVersion}"
           chmod +x ./gradlew
-          ./gradlew clean publish -DiamVersion=${iamVersion} \
+          # 使用 nexus-publish-plugin 发布到 Sonatype，自动 close staging repository
+          ./gradlew clean publishToSonatype closeSonatypeStagingRepository \
+          -DiamVersion=${iamVersion} \
           -Psigning.keyId=${{ secrets.SIGNING_KEY_ID }} \
           -Psigning.password='${{ secrets.SIGNING_PASSWORD }}' \
-          -Psigning.secretKeyRingFile=${{ github.workspace }}/secretKeyRingFile.gpg
+          -Psigning.secretKeyRingFile=${{ github.workspace }}/secretKeyRingFile.gpg \
+          -Dorg.gradle.parallel=false
       - name: Clean Up
         if: ${{ always() }}
         run: |
