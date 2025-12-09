@@ -90,8 +90,50 @@ publishing {
             }
         }
     }
-    // 注意：repositories 配置已移至 build.gradle 的 nexusPublishing 块
-    // 正式版使用 publishToSonatype，快照版也使用 publishToSonatype
+    
+    repositories {
+        maven {
+            name = "nexus3"
+            
+            // 根据 snapshot 参数选择不同的配置
+            def isSnapshot = System.getProperty("snapshot") == "true"
+            
+            // 仓库 URL
+            def repoUrl = isSnapshot
+                ? (System.getProperty("snapshotMavenRepoDeployUrl") 
+                    ?: System.getenv("build_snapshotMavenRepoDeployUrl") 
+                    ?: findProperty('MAVEN_REPO_SNAPSHOT_DEPLOY_URL')
+                    ?: "https://oss.sonatype.org/content/repositories/snapshots/")
+                : (System.getProperty("mavenRepoDeployUrl") 
+                    ?: System.getenv("build_mavenRepoDeployUrl") 
+                    ?: findProperty('MAVEN_REPO_DEPLOY_URL')
+                    ?: "https://ossrh-staging-api.central.sonatype.com/service/local/")
+            url = uri(repoUrl)
+            
+            // 用户名
+            def repoUsername = isSnapshot
+                ? (System.getProperty("snapshotMavenRepoUsername") 
+                    ?: System.getenv("build_snapshotMavenRepoUsername") 
+                    ?: findProperty('MAVEN_REPO_SNAPSHOT_USERNAME'))
+                : (System.getProperty("mavenRepoUsername") 
+                    ?: System.getenv("build_mavenRepoUsername") 
+                    ?: findProperty('MAVEN_REPO_USERNAME'))
+            
+            // 密码
+            def repoPassword = isSnapshot
+                ? (System.getProperty("snapshotMavenRepoPassword") 
+                    ?: System.getenv("build_snapshotMavenRepoPassword") 
+                    ?: findProperty('MAVEN_REPO_SNAPSHOT_PASSWORD'))
+                : (System.getProperty("mavenRepoPassword") 
+                    ?: System.getenv("build_mavenRepoPassword") 
+                    ?: findProperty('MAVEN_REPO_PASSWORD'))
+            
+            credentials {
+                username = repoUsername
+                password = repoPassword
+            }
+        }
+    }
 }
 
 signing {
