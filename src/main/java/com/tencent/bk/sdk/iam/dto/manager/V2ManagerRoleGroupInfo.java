@@ -50,4 +50,10 @@ public class V2ManagerRoleGroupInfo {
      * 是否已经加入用户组
      */
     private Boolean joined;
+
+    /**
+     * 是否允许申请，当为true时，表示不允许申请
+     */
+    @JsonProperty("apply_disable")
+    private Boolean applyDisable;
 }
