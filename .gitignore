@@ -17,3 +17,4 @@ notes/
 *.apk
 .codecc
 build.yml
+.codebuddy/
