@@ -37,3 +37,7 @@
 ## IAM v2.0.2
 
 - [新增] feat：获取用户组信息增加 “不可被申请” 属性 #114 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/114)
+
+## IAM v2.0.3
+
+- [优化] pref：增加用户组成员加入时间 #117 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/117)
