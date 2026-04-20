@@ -93,68 +93,44 @@ publishing {
 
     repositories {
         maven {
-            name "oss"
-            def mavenRepoDeployUrl = System.getProperty("mavenRepoDeployUrl")
-            def mavenRepoUsername = System.getProperty("mavenRepoUsername")
-            def mavenRepoPassword = System.getProperty("mavenRepoPassword")
+            name = "nexus3"
 
-            if (mavenRepoDeployUrl == null) {
-                mavenRepoDeployUrl = System.getenv("build_mavenRepoDeployUrl")
-            }
+            // 根据 snapshot 参数选择不同的配置
+            def isSnapshot = System.getProperty("snapshot") == "true"
 
-            if (mavenRepoUsername == null) {
-                mavenRepoUsername = System.getenv("build_mavenRepoUsername")
-            }
+            // 仓库 URL
+            def repoUrl = isSnapshot
+                    ? (System.getProperty("snapshotMavenRepoDeployUrl")
+                    ?: System.getenv("build_snapshotMavenRepoDeployUrl")
+                    ?: findProperty('MAVEN_REPO_SNAPSHOT_DEPLOY_URL')
+                    ?: "https://oss.sonatype.org/content/repositories/snapshots/")
+                    : (System.getProperty("mavenRepoDeployUrl")
+                    ?: System.getenv("build_mavenRepoDeployUrl")
+                    ?: findProperty('MAVEN_REPO_DEPLOY_URL')
+                    ?: "https://ossrh-staging-api.central.sonatype.com/service/local/")
+            url = uri(repoUrl)
 
-            if (mavenRepoPassword == null) {
-                mavenRepoPassword = System.getenv("build_mavenRepoPassword")
-            }
+            // 用户名
+            def repoUsername = isSnapshot
+                    ? (System.getProperty("snapshotMavenRepoUsername")
+                    ?: System.getenv("build_snapshotMavenRepoUsername")
+                    ?: findProperty('MAVEN_REPO_SNAPSHOT_USERNAME'))
+                    : (System.getProperty("mavenRepoUsername")
+                    ?: System.getenv("build_mavenRepoUsername")
+                    ?: findProperty('MAVEN_REPO_USERNAME'))
 
-            if (mavenRepoDeployUrl == null) {
-                mavenRepoDeployUrl = MAVEN_REPO_DEPLOY_URL
-            }
+            // 密码
+            def repoPassword = isSnapshot
+                    ? (System.getProperty("snapshotMavenRepoPassword")
+                    ?: System.getenv("build_snapshotMavenRepoPassword")
+                    ?: findProperty('MAVEN_REPO_SNAPSHOT_PASSWORD'))
+                    : (System.getProperty("mavenRepoPassword")
+                    ?: System.getenv("build_mavenRepoPassword")
+                    ?: findProperty('MAVEN_REPO_PASSWORD'))
 
-            if (mavenRepoUsername == null) {
-                mavenRepoUsername = MAVEN_REPO_USERNAME
-            }
-
-            if (mavenRepoPassword == null) {
-                mavenRepoPassword = MAVEN_REPO_PASSWORD
-            }
-
-            def snapshotMavenRepoDeployUrl = System.getProperty("snapshotMavenRepoDeployUrl")
-            def snapshotMavenRepoUsername = System.getProperty("snapshotMavenRepoUsername")
-            def snapshotMavenRepoPassword = System.getProperty("snapshotMavenRepoPassword")
-
-            if (snapshotMavenRepoDeployUrl == null) {
-                snapshotMavenRepoDeployUrl = System.getenv("build_snapshotMavenRepoDeployUrl")
-            }
-
-            if (snapshotMavenRepoUsername == null) {
-                snapshotMavenRepoUsername = System.getenv("build_snapshotMavenRepoUsername")
-            }
-
-            if (snapshotMavenRepoPassword == null) {
-                snapshotMavenRepoPassword = System.getenv("build_snapshotMavenRepoPassword")
-            }
-
-            if (mavenRepoDeployUrl == null) {
-                mavenRepoDeployUrl = MAVEN_REPO_SNAPSHOT_DEPLOY_URL
-            }
-
-            if (snapshotMavenRepoUsername == null) {
-                snapshotMavenRepoUsername = MAVEN_REPO_SNAPSHOT_USERNAME
-            }
-
-            if (snapshotMavenRepoPassword == null) {
-                snapshotMavenRepoPassword = MAVEN_REPO_SNAPSHOT_PASSWORD
-            }
-
-            url = System.getProperty("snapshot") == "true" ? snapshotMavenRepoDeployUrl : mavenRepoDeployUrl
-            println(url)
             credentials {
-                username = System.getProperty("snapshot") == "true" ? snapshotMavenRepoUsername : mavenRepoUsername
-                password = System.getProperty("snapshot") == "true" ? snapshotMavenRepoPassword : mavenRepoPassword
+                username = repoUsername
+                password = repoPassword
             }
         }
     }
@@ -164,10 +140,8 @@ signing {
     sign publishing.publications.mavenJava
 }
 
-publish.onlyIf { !sourceSets.main.allSource.files.isEmpty() }
-generateMetadataFileForMavenJavaPublication.onlyIf { !sourceSets.main.allSource.files.isEmpty() }
-generatePomFileForMavenJavaPublication.onlyIf { !sourceSets.main.allSource.files.isEmpty() }
-publishMavenJavaPublicationToOssRepository.onlyIf { !sourceSets.main.allSource.files.isEmpty() }
-publishMavenJavaPublicationToMavenLocal.onlyIf { !sourceSets.main.allSource.files.isEmpty() }
-publishToMavenLocal.onlyIf { !sourceSets.main.allSource.files.isEmpty() }
-signMavenJavaPublication.onlyIf { !sourceSets.main.allSource.files.isEmpty() }
+// 只有有源码的模块才发布
+def shouldPublish = !sourceSets.main.allSource.files.isEmpty()
+
+publishToMavenLocal.onlyIf { shouldPublish }
+signMavenJavaPublication.onlyIf { shouldPublish }
