@@ -34,6 +34,12 @@ public class RoleGroupMemberInfo {
     @JsonProperty("expired_at")
     Long expiredAt;
 
+    /**
+     * 加入时间
+     */
+    @JsonProperty("created_at")
+    Long createdAt;
+
     public RoleGroupMemberInfo() {}
 
     public RoleGroupMemberInfo(String type, String id, String name, Long expiredAt) {
