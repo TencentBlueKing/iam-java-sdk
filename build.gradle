@@ -32,7 +32,7 @@ ext {
     set('lombokVersion', '1.18.38')
     set("junitVersion", "5.4.2")
 
-    String iamVersion = (System.getProperty("iamVersion") ?: "2.0.1")
+    String iamVersion = (System.getProperty("iamVersion") ?: "2.0.4")
     if (System.getProperty("snapshot") == "true") {
         set('iamVersion', iamVersion + "-SNAPSHOT")
     } else {
