@@ -13,6 +13,7 @@ package com.tencent.bk.sdk.iam.service.v2.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tencent.bk.sdk.iam.config.IamConfiguration;
+import com.tencent.bk.sdk.iam.constants.IamUri;
 import com.tencent.bk.sdk.iam.constants.ManagerScopesEnum;
 import com.tencent.bk.sdk.iam.constants.V2IamUri;
 import com.tencent.bk.sdk.iam.dto.CallbackApplicationDTO;
@@ -38,6 +39,7 @@ import com.tencent.bk.sdk.iam.dto.manager.dto.SearchTemplatesDTO;
 import com.tencent.bk.sdk.iam.dto.manager.dto.UpdateManagerDTO;
 import com.tencent.bk.sdk.iam.dto.manager.dto.UpdateSubsetManagerDTO;
 import com.tencent.bk.sdk.iam.dto.manager.vo.CreateVo;
+import com.tencent.bk.sdk.iam.dto.manager.vo.GradeManagerListVO;
 import com.tencent.bk.sdk.iam.dto.manager.vo.ManagerGroupMemberVo;
 import com.tencent.bk.sdk.iam.dto.manager.vo.SubjectTemplateVO;
 import com.tencent.bk.sdk.iam.dto.manager.vo.V2ManagerRoleGroupVO;
@@ -544,6 +546,32 @@ public class V2ManagerServiceImpl implements V2ManagerService {
     }
 
     @Override
+    public GradeManagerListVO getGradeManagerList(PageInfoDTO pageInfoDTO) {
+        try {
+            AuthRequestContext.setRequestName("MANAGER_ROLE_LIST");
+            String responseStr = apigwHttpClientService.doHttpGet(buildManagerRoleListURL(pageInfoDTO));
+            if (StringUtils.isNotBlank(responseStr)) {
+                log.debug("get grade manager list response|{}", responseStr);
+                ResponseDTO<GradeManagerListVO> responseInfo =
+                    JsonUtil.fromJson(responseStr, new TypeReference<ResponseDTO<GradeManagerListVO>>() {
+                    });
+                if (responseInfo != null) {
+                    ResponseUtil.checkResponse(responseInfo);
+                    return responseInfo.getData();
+                }
+            } else {
+                log.warn("get grade manager list got empty response!");
+            }
+        } catch (IamException iamException) {
+            throw iamException;
+        } catch (Exception e) {
+            log.error("get grade manager list failed", e);
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    @Override
     public ManagerDetailResponse getGradeManagerDetail(String gradeManagerId) {
         try {
             AuthRequestContext.setRequestName("V2_MANAGER_ROLE_DETAIL_GET");
@@ -920,6 +948,18 @@ public class V2ManagerServiceImpl implements V2ManagerService {
         url.append(iamURL);
         if (pageInfoDTO != null) {
             url.append("?limit=");
+            url.append(pageInfoDTO.getLimit().toString());
+            url.append("&offset=");
+            url.append(pageInfoDTO.getOffset().toString());
+        }
+        return url.toString();
+    }
+
+    private String buildManagerRoleListURL(PageInfoDTO pageInfoDTO) {
+        StringBuffer url = new StringBuffer();
+        url.append(String.format(IamUri.MANAGER_ROLE_LIST, iamConfiguration.getSystemId()));
+        if (pageInfoDTO != null) {
+            url.append("&limit=");
             url.append(pageInfoDTO.getLimit().toString());
             url.append("&offset=");
             url.append(pageInfoDTO.getOffset().toString());

@@ -41,3 +41,8 @@
 ## IAM v2.0.3
 
 - [优化] pref：增加用户组成员加入时间 #117 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/117)
+
+## IAM v2.0.4
+
+- [新增] feat：增加查询分级管理列表接口 #119 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/119)
+
