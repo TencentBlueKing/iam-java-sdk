@@ -14,6 +14,7 @@ package com.tencent.bk.sdk.iam.service.v2;
 import com.tencent.bk.sdk.iam.dto.CallbackApplicationDTO;
 import com.tencent.bk.sdk.iam.dto.GradeManagerApplicationCreateDTO;
 import com.tencent.bk.sdk.iam.dto.GradeManagerApplicationUpdateDTO;
+import com.tencent.bk.sdk.iam.dto.PageInfoDTO;
 import com.tencent.bk.sdk.iam.dto.ResponseData;
 import com.tencent.bk.sdk.iam.dto.V2PageInfoDTO;
 import com.tencent.bk.sdk.iam.dto.action.GroupAction;
@@ -32,6 +33,7 @@ import com.tencent.bk.sdk.iam.dto.manager.dto.SearchGroupDTO;
 import com.tencent.bk.sdk.iam.dto.manager.dto.SearchTemplatesDTO;
 import com.tencent.bk.sdk.iam.dto.manager.dto.UpdateManagerDTO;
 import com.tencent.bk.sdk.iam.dto.manager.dto.UpdateSubsetManagerDTO;
+import com.tencent.bk.sdk.iam.dto.manager.vo.GradeManagerListVO;
 import com.tencent.bk.sdk.iam.dto.manager.vo.ManagerGroupMemberVo;
 import com.tencent.bk.sdk.iam.dto.manager.vo.SubjectTemplateVO;
 import com.tencent.bk.sdk.iam.dto.manager.vo.V2ManagerRoleGroupVO;
@@ -87,6 +89,11 @@ public interface V2ManagerService {
     void deleteSubsetManager(String subsetManagerId);
 
     //----------------分级管理员相关接口----------------
+
+    /**
+     * 查询分级管理员列表
+     */
+    public GradeManagerListVO getGradeManagerList(PageInfoDTO pageInfoDTO);
 
     /**
      * 查询分级管理员详情
