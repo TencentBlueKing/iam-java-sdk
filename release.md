@@ -33,3 +33,7 @@
 ## IAM v2.0.1
 
 - [新增] 支持多租户
+
+## IAM v2.0.4
+
+- [新增] feat：增加查询分级管理列表接口 #119 [链接](https://github.com/TencentBlueKing/iam-java-sdk/issues/119)

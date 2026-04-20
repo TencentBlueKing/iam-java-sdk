@@ -64,6 +64,7 @@ public class IamUri {
     public static final String BATCH_GRANT_OR_REVOKE = "/api/v1/open/authorization/batch_path/";
 
     public static final String MANAGER_ROLE = "/api/v1/open/management/grade_managers/";
+    public static final String MANAGER_ROLE_LIST = "/api/v1/open/management/grade_managers/?system=%s";
     public static final String MANAGER_ROLE_UPDATE = "/api/v1/open/management/grade_managers/%s/";
     public static final String MANAGER_GRADE_GROUP_GET = "/api/v1/open/management/grade_managers/%s/groups/";
     public static final String MANAGER_GRADE_GROUP_CREATE = "/api/v1/open/management/grade_managers/%s/groups/";

@@ -22,6 +22,7 @@ import com.tencent.bk.sdk.iam.dto.manager.dto.ManagerMemberGroupDTO;
 import com.tencent.bk.sdk.iam.dto.manager.dto.ManagerRoleGroupDTO;
 import com.tencent.bk.sdk.iam.dto.manager.dto.ManagerRoleMemberDTO;
 import com.tencent.bk.sdk.iam.dto.manager.vo.CreateVo;
+import com.tencent.bk.sdk.iam.dto.manager.vo.GradeManagerListVO;
 import com.tencent.bk.sdk.iam.dto.manager.vo.ManagerGroupMemberVo;
 import com.tencent.bk.sdk.iam.dto.manager.vo.ManagerRoleGroupVO;
 
