@@ -30,10 +30,10 @@ ext {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
     set('jacksonVersion', "2.9.10")
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
-    set('lombokVersion', '1.18.36')
+    set('lombokVersion', '1.18.38')
     set("junitVersion", "5.4.2")
 
-    String iamVersion = (System.getProperty("iamVersion") ?: "2.0.0")
+    String iamVersion = (System.getProperty("iamVersion") ?: "2.0.5")
     if (System.getProperty("snapshot") == "true") {
         set('iamVersion', iamVersion + "-SNAPSHOT")
     } else {
@@ -65,6 +65,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation(group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30')
+
+    // aspect
+    implementation(group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.24')
 
     // https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api
     compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '6.1.0'
@@ -107,39 +110,39 @@ nexusPublishing {
         sonatype {
             // 根据 snapshot 参数选择不同的配置
             def isSnapshot = System.getProperty("snapshot") == "true"
-            
+
             // 仓库 URL
             def repoUrl = isSnapshot
-                ? (System.getProperty("snapshotMavenRepoDeployUrl") 
-                    ?: System.getenv("build_snapshotMavenRepoDeployUrl") 
+                ? (System.getProperty("snapshotMavenRepoDeployUrl")
+                    ?: System.getenv("build_snapshotMavenRepoDeployUrl")
                     ?: findProperty('MAVEN_REPO_SNAPSHOT_DEPLOY_URL')
                     ?: "https://oss.sonatype.org/content/repositories/snapshots/")
-                : (System.getProperty("mavenRepoDeployUrl") 
-                    ?: System.getenv("build_mavenRepoDeployUrl") 
+                : (System.getProperty("mavenRepoDeployUrl")
+                    ?: System.getenv("build_mavenRepoDeployUrl")
                     ?: findProperty('MAVEN_REPO_DEPLOY_URL')
                     ?: "https://ossrh-staging-api.central.sonatype.com/service/local/")
             nexusUrl.set(uri(repoUrl))
             snapshotRepositoryUrl.set(uri(repoUrl))
-            
+
             // 用户名
             def repoUsername = isSnapshot
-                ? (System.getProperty("snapshotMavenRepoUsername") 
-                    ?: System.getenv("build_snapshotMavenRepoUsername") 
+                ? (System.getProperty("snapshotMavenRepoUsername")
+                    ?: System.getenv("build_snapshotMavenRepoUsername")
                     ?: findProperty('MAVEN_REPO_SNAPSHOT_USERNAME'))
-                : (System.getProperty("mavenRepoUsername") 
-                    ?: System.getenv("build_mavenRepoUsername") 
+                : (System.getProperty("mavenRepoUsername")
+                    ?: System.getenv("build_mavenRepoUsername")
                     ?: findProperty('MAVEN_REPO_USERNAME'))
             if (repoUsername != null) {
                 username.set(repoUsername)
             }
-            
+
             // 密码
             def repoPassword = isSnapshot
-                ? (System.getProperty("snapshotMavenRepoPassword") 
-                    ?: System.getenv("build_snapshotMavenRepoPassword") 
+                ? (System.getProperty("snapshotMavenRepoPassword")
+                    ?: System.getenv("build_snapshotMavenRepoPassword")
                     ?: findProperty('MAVEN_REPO_SNAPSHOT_PASSWORD'))
-                : (System.getProperty("mavenRepoPassword") 
-                    ?: System.getenv("build_mavenRepoPassword") 
+                : (System.getProperty("mavenRepoPassword")
+                    ?: System.getenv("build_mavenRepoPassword")
                     ?: findProperty('MAVEN_REPO_PASSWORD'))
             if (repoPassword != null) {
                 password.set(repoPassword)

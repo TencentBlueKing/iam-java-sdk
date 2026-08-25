@@ -14,6 +14,7 @@ package com.tencent.bk.sdk.iam.constants;
 public class HttpHeader {
     public static final String BK_LANGUAGE = "Blueking-Language";
     public static final String REQUEST_ID = "X-Request-Id";
+    public static final String BK_TENANT_ID = "X-Bk-Tenant-Id";
 
     public static final String AUTH = "Authorization";
     public static final String AUTH_SIGN = "X-Bk-IAM-Signature";

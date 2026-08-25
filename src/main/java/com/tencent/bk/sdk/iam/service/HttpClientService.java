@@ -42,7 +42,7 @@ public interface HttpClientService {
     /**
      * 发起 HTTP PUT 请求
      *
-     * @param uri  请求路径
+     * @param uri 请求路径
      * @return 响应包体
      */
     String doHttpPut(String uri);

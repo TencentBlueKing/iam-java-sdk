@@ -21,6 +21,7 @@ import com.tencent.bk.sdk.iam.service.TokenService;
 import com.tencent.bk.sdk.iam.util.AuthRequestContext;
 import com.tencent.bk.sdk.iam.util.JsonUtil;
 
+import com.tencent.bk.sdk.iam.util.ThreadUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -69,5 +70,11 @@ public class TokenServiceImpl implements TokenService {
             initToken();
         }
         return token;
+    }
+
+    @Override
+    public String getToken(String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return getToken();
     }
 }

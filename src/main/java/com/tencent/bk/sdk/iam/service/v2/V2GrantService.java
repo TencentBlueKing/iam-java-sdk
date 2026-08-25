@@ -31,4 +31,22 @@ public interface V2GrantService {
      * @return
      */
     public void revokeRoleGroupPolicies(Integer groupId, ManagerRoleGroupGrantDTO managerRoleGroupGrantDTO);
+
+    /**
+     * 用户组授权(带租户)
+     *
+     * @param groupId                  用户组ID
+     * @param managerRoleGroupGrantDTO 授权信息
+     * @param tenantId                 租户ID
+     */
+    public void v2GrantRoleGroup(Integer groupId, ManagerRoleGroupGrantDTO managerRoleGroupGrantDTO, String tenantId);
+
+    /**
+     * 用户组授权回收(带租户)
+     *
+     * @param groupId                  用户组ID
+     * @param managerRoleGroupGrantDTO 授权信息
+     * @param tenantId                 租户ID
+     */
+    public void revokeRoleGroupPolicies(Integer groupId, ManagerRoleGroupGrantDTO managerRoleGroupGrantDTO, String tenantId);
 }

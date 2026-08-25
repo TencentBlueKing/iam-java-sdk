@@ -25,6 +25,7 @@ import com.tencent.bk.sdk.iam.service.SystemService;
 import com.tencent.bk.sdk.iam.util.AuthRequestContext;
 import com.tencent.bk.sdk.iam.util.JsonUtil;
 import com.tencent.bk.sdk.iam.util.ResponseUtil;
+import com.tencent.bk.sdk.iam.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -229,5 +230,65 @@ public class ActionServiceImpl implements IamActionService {
             log.warn("update resourceCreatorActions fail {}", resourceCreatorActionsDTO, e);
         }
         return false;
+    }
+
+    @Override
+    public ResourceCreatorActionsDTO getResourceCreatorAction(String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getResourceCreatorAction();
+    }
+
+    @Override
+    public ActionDTO getAction(String actionId, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getAction(actionId);
+    }
+
+    @Override
+    public Boolean createAction(List<ActionDTO> actionDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.createAction(actionDTO);
+    }
+
+    @Override
+    public Boolean updateAction(String actionId, ActionUpdateDTO actionDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.updateAction(actionId, actionDTO);
+    }
+
+    @Override
+    public Boolean deleteAction(String actionId, Boolean checkExistence, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.deleteAction(actionId, checkExistence);
+    }
+
+    @Override
+    public ActionGroupDTO getActionGroup(String groupName, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.getActionGroup(groupName);
+    }
+
+    @Override
+    public Boolean createActionGroup(List<ActionGroupDTO> actionGroupDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.createActionGroup(actionGroupDTO);
+    }
+
+    @Override
+    public Boolean updateActionGroup(List<ActionGroupDTO> actionGroupDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.updateActionGroup(actionGroupDTO);
+    }
+
+    @Override
+    public Boolean createResourceCreatorAction(ResourceCreatorActionsDTO resourceCreatorActionsDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.createResourceCreatorAction(resourceCreatorActionsDTO);
+    }
+
+    @Override
+    public Boolean updateResourceCreatorAction(ResourceCreatorActionsDTO resourceCreatorActionsDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return this.updateResourceCreatorAction(resourceCreatorActionsDTO);
     }
 }
