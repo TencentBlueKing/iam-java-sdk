@@ -11,7 +11,26 @@
 
 package com.tencent.bk.sdk.iam.helper;
 
+import com.tencent.bk.sdk.iam.config.IamConfiguration;
+import com.tencent.bk.sdk.iam.constants.ExpressionOperationEnum;
+import com.tencent.bk.sdk.iam.dto.ExpressionWithResourceDTO;
+import com.tencent.bk.sdk.iam.dto.InstanceDTO;
 import com.tencent.bk.sdk.iam.dto.PathInfoDTO;
+import com.tencent.bk.sdk.iam.dto.action.ActionDTO;
+import com.tencent.bk.sdk.iam.dto.expression.ExpressionDTO;
+import com.tencent.bk.sdk.iam.dto.resource.ResourceDTO;
+import com.tencent.bk.sdk.iam.exception.IamException;
+import com.tencent.bk.sdk.iam.service.PolicyService;
+import com.tencent.bk.sdk.iam.service.TokenService;
+import com.tencent.bk.sdk.iam.util.ThreadUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.Charsets;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
@@ -22,25 +41,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import jakarta.servlet.http.HttpServletRequest;
-import com.tencent.bk.sdk.iam.config.IamConfiguration;
-import com.tencent.bk.sdk.iam.constants.ExpressionOperationEnum;
-import com.tencent.bk.sdk.iam.dto.ExpressionWithResourceDTO;
-import com.tencent.bk.sdk.iam.dto.InstanceDTO;
-import com.tencent.bk.sdk.iam.dto.action.ActionDTO;
-import com.tencent.bk.sdk.iam.dto.expression.ExpressionDTO;
-import com.tencent.bk.sdk.iam.dto.resource.ResourceDTO;
-import com.tencent.bk.sdk.iam.exception.IamException;
-import com.tencent.bk.sdk.iam.service.PolicyService;
-import com.tencent.bk.sdk.iam.service.TokenService;
-
-import org.apache.commons.codec.Charsets;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class AuthHelper {
@@ -107,7 +107,7 @@ public class AuthHelper {
                     orInstanceList.addAll(calculateInstanceList(subExpression, resourceType, pathInfoDTO));
                     // 已经包含所有,就不再遍历
                     if (subInstanceList.contains("*")) {
-                       break;
+                        break;
                     }
                 }
                 instanceList.addAll(orInstanceList);
@@ -352,9 +352,10 @@ public class AuthHelper {
 
     /**
      * 按照属性分组获取实例列表
+     *
      * @param expression 表达式
      * @return 资源按照熟悉分组
-     *
+     * <p>
      * 表达式: {"content":[{"content":[{"content":[{"field":"pipeline._bk_iam_path_","op":"string_contains","value":"/project,greysonfang-rbac-test-113/"},{"field":"pipeline._bk_iam_path_","op":"string_contains","value":"/project,asdasdasd/"}],"op":"OR"},{"content":[{"field":"pipeline._bk_iam_path_","op":"string_contains","value":"/pipeline_group,proxgyem/"},{"field":"pipeline._bk_iam_path_","op":"string_contains","value":"/pipeline_group,mjrjvoem/"}],"op":"OR"},{"field":"pipeline.id","op":"in","value":["p-cb56802bf8eb4b6ebc2b44c77ed545bf","p-a7677e1e77a5414199ff294f5a35162a","p-fee8bc4ad534421e80fefb48d1310bb8","p-4acf760c304d4b99851b188260ff5e45"]}],"op":"OR"},{"field":"pipeline.id","op":"eq","value":"p-42f8638d709a4fc9b6e9292f1c232456"}],"op":"OR"}
      * 返回: {pipeline=[p-cb56802bf8eb4b6ebc2b44c77ed545bf, p-a7677e1e77a5414199ff294f5a35162a, p-fee8bc4ad534421e80fefb48d1310bb8, p-4acf760c304d4b99851b188260ff5e45, p-42f8638d709a4fc9b6e9292f1c232456], pipeline_group=[proxgyem, mjrjvoem], project=[greysonfang-rbac-test-113, asdasdasd]}
      */
@@ -470,6 +471,11 @@ public class AuthHelper {
         }
     }
 
+    public boolean isAllowed(String username, String action, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return isAllowed(username, action);
+    }
+
     public boolean isAllowed(String username, String action) {
         ActionDTO actionDTO = new ActionDTO();
         actionDTO.setId(action);
@@ -480,8 +486,13 @@ public class AuthHelper {
 
     public boolean isAllowed(String username, String action, InstanceDTO instance) {
         List<String> allowed = isAllowed(username, action, Collections.singletonList(instance));
-        log.info("isAllowed {}|{}|{}|{}|{}", username, action,instance.getId(), allowed, allowed.contains(instance.getId()));
+        log.info("isAllowed {}|{}|{}|{}|{}", username, action, instance.getId(), allowed, allowed.contains(instance.getId()));
         return allowed.contains(instance.getId());
+    }
+
+    public List<String> isAllowed(String username, String action, List<InstanceDTO> instanceList, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return isAllowed(username, action, instanceList);
     }
 
     public List<String> isAllowed(String username, String action, List<InstanceDTO> instanceList) {
@@ -515,6 +526,12 @@ public class AuthHelper {
                 }).map(InstanceDTO::getId).distinct().collect(Collectors.toList());
         log.debug("Allowed instance list|{}|{}|{}", username, action, allowedInstanceList);
         return allowedInstanceList;
+    }
+
+    public boolean isAllowed(String username, String action, InstanceDTO selfInstance,
+                             List<InstanceDTO> dependentInstanceList, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return isAllowed(username, action, selfInstance, dependentInstanceList);
     }
 
     /**
@@ -626,6 +643,11 @@ public class AuthHelper {
         return !CollectionUtils.isEmpty(dependentResources) && dependentResources.stream().anyMatch(instance -> StringUtils.isNotEmpty(instance.getId()));
     }
 
+    public boolean validRequest(HttpServletRequest request, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return validRequest(request);
+    }
+
     public boolean validRequest(HttpServletRequest request) {
         try {
             String authHeader = request.getHeader("Authorization").trim();
@@ -661,6 +683,11 @@ public class AuthHelper {
         return false;
     }
 
+    public List<String> getInstanceList(String username, String action, String resourceType, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return getInstanceList(username, action, resourceType);
+    }
+
     /**
      * 获取某个资源类型某个操作所有实例列表
      *
@@ -678,13 +705,18 @@ public class AuthHelper {
         return instanceList;
     }
 
+    public List<String> getInstanceList(String username, String action, String resourceType, PathInfoDTO pathInfoDTO, String tenantId) {
+        ThreadUtil.setTenantId(tenantId);
+        return getInstanceList(username, action, resourceType, pathInfoDTO);
+    }
+
     /**
      * 获取某个资源类型某个操作所有实例列表
      *
      * @param username     用户
      * @param action       操作
      * @param resourceType 资源类型
-     * @param pathInfoDTO 资源类型父类型，如某个项目下所有流水线列表
+     * @param pathInfoDTO  资源类型父类型，如某个项目下所有流水线列表
      * @return 资源实例列表，如果列表中包含*表示所有的实例列表
      */
     public List<String> getInstanceList(String username, String action, String resourceType, PathInfoDTO pathInfoDTO) {
@@ -696,10 +728,20 @@ public class AuthHelper {
         return instanceList;
     }
 
+    public Map<String, List<String>> groupRbacInstanceByType(
+            String username,
+            String action,
+            String tenantId
+    ) {
+        ThreadUtil.setTenantId(tenantId);
+        return groupRbacInstanceByType(username, action);
+    }
+
     /**
      * 按照类型分组rbac实例列表
-     * @param username   用户
-     * @param action     操作
+     *
+     * @param username 用户
+     * @param action   操作
      * @return
      */
     public Map<String, List<String>> groupRbacInstanceByType(

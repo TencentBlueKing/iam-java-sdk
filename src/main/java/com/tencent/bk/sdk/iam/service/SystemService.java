@@ -21,4 +21,10 @@ public interface SystemService {
     SystemFieldDTO getSystemFieldsInfo(String systemId);
 
     Boolean createSystem(SystemDTO systemInfo);
+
+    Boolean systemCheck(String systemId, String tenantId);
+
+    SystemFieldDTO getSystemFieldsInfo(String systemId, String tenantId);
+
+    Boolean createSystem(SystemDTO systemInfo, String tenantId);
 }

@@ -37,4 +37,24 @@ public interface GrantService {
      * 批量收回用户权限
      */
     List<BatchGrantPolicyDTO> batchGrantPermission(String userId, List<String> actions, List<GrantResourceDTO> resources);
+
+    /**
+     * 给用户授予权限(带租户ID)
+     */
+    GrantPolicyDTO grantPermission(String userId, String action, List<GrantResourceDTO> resources, String tenantId);
+
+    /**
+     * 收回用户权限(带租户ID)
+     */
+    GrantPolicyDTO revokePermission(String userId, String action, List<GrantResourceDTO> resources, String tenantId);
+
+    /**
+     * 给用户批量授予权限(带租户ID)
+     */
+    List<BatchGrantPolicyDTO> batchRevokePermission(String userId, List<String> actions, List<GrantResourceDTO> resources, String tenantId);
+
+    /**
+     * 批量收回用户权限(带租户ID)
+     */
+    List<BatchGrantPolicyDTO> batchGrantPermission(String userId, List<String> actions, List<GrantResourceDTO> resources, String tenantId);
 }
